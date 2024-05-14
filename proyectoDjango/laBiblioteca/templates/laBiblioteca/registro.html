@@ -1,0 +1,31 @@
+{% extends "laBiblioteca/base.html" %}
+
+{% block title %}Registro | La biblioteca {% endblock %}
+{% block css %}{% endblock %}
+
+{% block main %}
+    <h1>Registro de usuarios</h1>
+
+    <form action="#">
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre" required>
+
+        <label for="apellido">Apellido:</label>
+        <input type="text" id="apellido" name="apellido" required>
+
+        <label for="email">Correo electrónico:</label>
+        <input type="email" id="email" name="email" required>
+
+        <label for="contraseña">Ingrese una contraseña:</label>
+        <input type="text" id="contraseña" name="contraseña" required>
+
+        <label for="contraseña2">Repita su contraseña:</label>
+        <input type="text" id="contraseña2" name="contraseña2" required>
+
+        <label for="terminos">Acepto los términos y condiciones:</label>
+        <input type="checkbox" id="terminos" name="terminos" required>
+
+        <button type="submit">Registrarse</button>
+        <button type="reset">Cancelar</button>
+    </form>
+{% endblock %}

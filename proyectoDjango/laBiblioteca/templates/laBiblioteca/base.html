@@ -10,6 +10,15 @@
         {% block css %}{% endblock %}
     </head>
     <body>
+        <head>
+            <ul class="menu" class="mostrar-menu">
+                <li><a href="{% url 'index' %}">Inicio</a></li>
+                <li><a href="{% url 'ingresar' %}">Ingresar</a></li>
+                <li><a href="{% url 'index' %}">Catálogo</a></li>
+                <li><a href="{% url 'registro' %}">Registrarse</a></li>
+                <li><a href="{% url 'index' %}">Contactos</a></li>
+            </ul>
+        </head>
         <header></header>
         <main>{% block main %}{% endblock %}</main>
         <footer>
