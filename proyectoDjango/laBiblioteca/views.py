@@ -1,11 +1,45 @@
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.http import HttpResponseRedirect
+from . import forms
+from .forms import AltaLectoresForm, IngresoLectoresForm
 
 def index(request):
     return render(request, 'laBiblioteca/index.html')
 
 def registro(request):
-    return render(request, 'laBiblioteca/registro.html')
+    contexto = {}
+    if request.method =="GET":
+        contexto['alta_lector_form'] = forms.AltaLectoresForm()
+    else: #asumo que es un POST
+        contexto['alta_alumno_form'] = forms.AltaLectoresForm(request.POST)
+        #validar el form
+        #si el form es correcto
+        #si el form es correcto lo reirijo
+        #si el form contiene errores, envio un mensaje de error
+        #si todo esta OK; hago un comit en la base de datos
+        redirect('index')
+        print(request.POST)
+        
+    return render(request, 'laBiblioteca/registro.html', contexto)   
+    
+    
+    
+
 
 def ingresar(request):
-    return render(request, 'laBiblioteca/ingresar.html')
+    contexto = {}
+    if request.method =="GET":
+        contexto['ingreso_lector_form'] = forms.IngresoLectoresForm()
+    else: #asumo que es un POST
+        contexto['ingreso_lector_form'] = forms.IngresoLectoresForm(request.POST)
+        #validar el form
+        #si el form es correcto
+        #si el form es correcto lo reirijo
+        #si el form contiene errores, envio un mensaje de error
+        #si todo esta OK; hago un comit en la base de datos
+        redirect('index')
+        print(request.POST)
+    
+    
+    return render(request, 'laBiblioteca/ingresar.html', contexto)

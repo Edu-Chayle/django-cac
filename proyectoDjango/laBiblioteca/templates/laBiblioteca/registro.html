@@ -8,26 +8,10 @@
 {% block main %}
     <h1>Registro de usuarios</h1>
 
-    <form action="#">
-        <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" name="nombre" required>
-
-        <label for="apellido">Apellido:</label>
-        <input type="text" id="apellido" name="apellido" required>
-
-        <label for="email">Correo electrónico:</label>
-        <input type="email" id="email" name="email" required>
-
-        <label for="contraseña">Ingrese una contraseña:</label>
-        <input type="text" id="contraseña" name="contraseña" required>
-
-        <label for="contraseña2">Repita su contraseña:</label>
-        <input type="text" id="contraseña2" name="contraseña2" required>
-
-        <label for="terminos">Acepto los términos y condiciones:</label>
-        <input type="checkbox" id="terminos" name="terminos" required>
-
-        <button type="submit">Registrarse</button>
-        <button type="reset">Cancelar</button>
+    <form action="{% url 'registro' %}" method="post">
+        {% csrf_token %}
+        {{ alta_lector_form.as_p }}
+        <input type="submit" value="Registrarse">
+        <input type="submit" value="Cancelar">
     </form>
 {% endblock %}
