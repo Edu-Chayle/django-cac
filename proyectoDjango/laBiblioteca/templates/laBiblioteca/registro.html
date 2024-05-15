@@ -1,7 +1,9 @@
 {% extends "laBiblioteca/base.html" %}
-
+{% load static %}
 {% block title %}Registro | La biblioteca {% endblock %}
-{% block css %}{% endblock %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'laBiblioteca/style/registro.css' %}">
+{% endblock %}
 
 {% block main %}
     <h1>Registro de usuarios</h1>
