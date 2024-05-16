@@ -6,12 +6,14 @@
 {% endblock %}
 
 {% block main %}
-    <h1>Ingreso de usuarios</h1>
+    <div class="contenedor_formulario">
+    <h1 class="titulo_ingresar">Ingreso de usuarios</h1>
 
-    <form action="{% url 'registro' %}" method="post">
+    <form class="ingresar" action="{% url 'ingresar' %}" method="post">
         {% csrf_token %}
         {{ ingreso_lector_form.as_p }}
         <input type="submit" value="Ingresar">
         <input type="submit" value="Cancelar">
     </form>
+    <div>
 {% endblock %}

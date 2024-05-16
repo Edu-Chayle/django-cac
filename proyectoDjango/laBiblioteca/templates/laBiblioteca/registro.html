@@ -6,12 +6,14 @@
 {% endblock %}
 
 {% block main %}
-    <h1>Registro de usuarios</h1>
+<div class="contenedor_formulario">
+    <h1 class="titulo_registro">Registro de usuarios</h1>
 
-    <form action="{% url 'registro' %}" method="post">
+    <form class="registro" action="{% url 'registro' %}" method="post">
         {% csrf_token %}
         {{ alta_lector_form.as_p }}
         <input type="submit" value="Registrarse">
         <input type="submit" value="Cancelar">
     </form>
+</div>
 {% endblock %}
