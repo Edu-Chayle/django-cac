@@ -1,3 +1,48 @@
+.hero {
+    background-color: #000;
+    color: #fff; 
+    display: flex;
+    justify-content: space-between;
+    align-items: center; 
+    padding: 1rem 2rem; 
+  }
+  
+  .hero .contenedor_logo_principal,
+  .hero .contenedor_menu,
+  .hero .icono-menu {
+    margin: 0;
+  }
+  
+  .hero .contenedor_logo_principal {
+    
+  }
+
+  .hero .contenedor_logo_principal .logo_principal {
+    width: 140px;
+    height: 70px;
+  }
+  
+  .hero .contenedor_menu ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+  }
+  
+  .hero .contenedor_menu li {
+    margin-right: 1rem;
+  }
+  
+  .hero .contenedor_menu a {
+    color: inherit;
+    text-decoration: none;
+  }
+  
+  .hero .icono-menu {
+    font-size: 2rem;
+    cursor: pointer;
+    display: none;
+  }
 
 footer {
     background-color: #000;
