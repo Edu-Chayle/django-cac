@@ -1,6 +1,5 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
-from django.http import HttpResponseRedirect
 from . import forms
 from .forms import AltaLectoresForm, IngresoLectoresForm
 
@@ -43,3 +42,26 @@ def ingresar(request):
     
     
     return render(request, 'laBiblioteca/ingresar.html', contexto)
+
+
+def catalogo(request):
+    return render(request, 'laBiblioteca/catalogo.html')
+
+def contactos(request):
+    contexto = {}
+    if request.method =="GET":
+        contexto['contactos_form'] = forms.ContactosForm()
+    else: #asumo que es un POST
+        contexto['contactos_form'] = forms.ContactosForm(request.POST)
+        #validar el form
+        #si el form es correcto
+        #si el form es correcto lo reirijo
+        #si el form contiene errores, envio un mensaje de error
+        #si todo esta OK; hago un comit en la base de datos
+        redirect('index')
+        print(request.POST)
+        
+    return render(request, 'laBiblioteca/contactos.html', contexto)
+
+def panel_usuario(request):
+    return render(request, 'laBiblioteca/panel_usuario.html')

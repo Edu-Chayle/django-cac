@@ -15,3 +15,13 @@ class AltaLectoresForm(forms.Form):
 class IngresoLectoresForm(forms.Form):
     email = forms.EmailField(label="Email", required=True)
     contraseña = forms.CharField(label="Contraseña", required=True)
+    
+    
+    
+    
+    
+class ContactosForm(forms.Form):
+    nombre = forms.CharField(label="Nombre", required=True)
+    email = forms.EmailField(label="Email", required=True)
+    mensaje = forms.CharField(label="Mensaje", required=True)
+    recibir_noticias = forms.BooleanField(label="Suscribirse a noticias", required=False)

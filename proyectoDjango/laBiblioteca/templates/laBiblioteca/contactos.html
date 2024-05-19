@@ -1,0 +1,25 @@
+{% extends "laBiblioteca/base.html" %}
+{% load static %}
+{% block title %}Contactos | La biblioteca {% endblock %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'laBiblioteca/style/contactos.css' %}">
+{% endblock %}
+
+{% block main %}
+<div class="contenedor_contactos">
+    <h1 class="titulo_registro">Contáctanos:</h1>
+
+    
+</div>
+
+<div class="contenedor_formulario">
+    <h4 class="titulo_registro">Dejanos tu mensaje</h4>
+    <form class="mensaje" action="{% url 'index' %}" method="post">
+        {% csrf_token %}
+        {{ contactos_form.as_p }}
+        <input type="submit" value="Enviar">
+        <input type="submit" value="Cancelar">
+    </form>
+
+</div>
+{% endblock %}

@@ -47,7 +47,30 @@
 footer {
     background-color: #000;
     color: #fff;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+}
+
+.section_footer{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 20px;
+  
+}
+
+.seccion ul li{
+  list-style: none;
+}
+
+.seccion ul li a{
+  text-decoration: none;
+  color: #fff;
+}
+
+footer .copyright{
+  text-align: center;
+}
+
+footer .redes-sociales i{
+  font-size: 30px;
+  cursor: pointer;
 }
