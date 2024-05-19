@@ -74,3 +74,11 @@ footer .redes-sociales i{
   font-size: 30px;
   cursor: pointer;
 }
+
+.messages {
+  background-color: #39ff23;
+  width: auto;
+  height: 40px;
+  color: #fff;
+  font-weight: bold;
+}
