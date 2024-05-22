@@ -7,13 +7,16 @@
 
 {% block main %}
 <div class="contenedor_formulario">
+    <div class="titulo_formulario">
     <h1 class="titulo_registro">Registro de usuarios</h1>
-
-    <form class="registro" action="{% url 'registro' %}" method="post">
+    </div>
+    <div class= "contenedor_formulario form input">
+    <form action="{% url 'registro' %}" method="post">
         {% csrf_token %}
         {{ alta_lector_form.as_p }}
         <input type="submit" value="Registrarse">
         <input type="submit" value="Cancelar">
     </form>
+    </div>
 </div>
 {% endblock %}
