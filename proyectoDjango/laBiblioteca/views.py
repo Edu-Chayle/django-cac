@@ -88,3 +88,20 @@ def contactos(request):
 
 def panel_usuario(request):
     return render(request, 'laBiblioteca/panel_usuario.html')
+
+def perfil(request):
+    context = {}
+
+    if request.method == "GET":
+        context['perfil_form'] = PerfilForm()
+    else:
+        form = PerfilForm(request.POST)
+
+        context['perfil_form'] = form
+
+        if form.is_valid():
+            messages.success(request, 'El perfil se actualizo con éxito.')
+
+            return redirect('index')
+
+    return render(request, 'laBiblioteca/perfil.html', context)
