@@ -1,4 +1,5 @@
 {% load static %}
+
 <!DOCTYPE html>
 <html lang="es">
     <head>
@@ -13,57 +14,45 @@
     </head>
     <body>
         <header class="hero">
-        <div class="contenedor_logo_principal"><a href="{% url 'index' %}"><img class="logo_principal" src="{% static 'laBiblioteca\img\laBiblioteca.webp' %}" alt="La Biblioteca"></a></div>
-        <div class="contenedor_menu">
-            <ul class="menu" class="mostrar-menu">
-                <li><a href="{% url 'index' %}">Inicio</a></li>
-                <li><a href="{% url 'ingresar' %}">Ingresar</a></li>
-                <li><a href="{% url 'registro' %}">Registrarse</a></li>
-                <li><a href="{% url 'catalogo' %}">Catálogo</a></li>
-                <li><a href="{% url 'perfil' %}">Perfil</a></li>
-                <li><a href="{% url 'contactos' %}">Contactos</a></li>
-            </ul>
-        </div>
-        <div class="icono-menu">&#9776;</div>
+            <div class="contenedor_logo_principal">
+                <a href="{% url 'index' %}"><img class="logo_principal" src="{% static 'laBiblioteca\img\laBiblioteca.webp' %}" alt="La Biblioteca"></a>
+            </div>
+                <div class="contenedor_menu">
+                    <ul class="menu" class="mostrar-menu">
+                        <li><a href="{% url 'index' %}">Inicio</a></li>
+                        <li><a href="{% url 'ingresar' %}">Ingresar</a></li>
+                        <li><a href="{% url 'registro' %}">Registrarse</a></li>
+                        <li><a href="{% url 'catalogo' %}">Catálogo</a></li>
+                        <li><a href="{% url 'perfil' %}">Perfil</a></li>
+                        <li><a href="{% url 'contactos' %}">Contactos</a></li>
+                    </ul>
+                </div>
+            <div class="icono-menu">&#9776;</div>
+            {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                        <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message.message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
         </header>
-
-    {% if messages %}
-    <ul class="messages">
-        {% for message in messages %}
-            <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message.message }}</li>
-        {% endfor %}
-    </ul>
-    {% endif %}
-        
         <main>{% block main %}{% endblock %}</main>
         <footer>
             <div class="section_footer">
-            <div class="seccion">
-                <h4>La biblioteca</h4>
-                <p>Dirección: Dirección</p>
-                <p>Email: labiblioteca@gmail.com</p>
-                <p>CABA, Argentina.</p>
+                <div class="seccion">
+                    <h4>La biblioteca</h4>
+                    <p>Dirección: Dirección</p>
+                    <p>Email: labiblioteca@gmail.com</p>
+                    <p>CABA, Argentina.</p>
+                </div>
+                <div class="seccion redes-sociales">
+                    <h5>Síguenos en nuestras redes:</h5>
+                    <i class="fab fa-facebook"></i>
+                    <i class="fab fa-whatsapp"></i>
+                    <i class="fas fa-envelope"></i>
+                    <i class="fab fa-tiktok"></i>
+                </div>
             </div>
-    
-            <div class="seccion">
-                <h4>Accesos Rápidos</h4>
-                <ul>
-                    <li><a href="{% url 'index' %}">Inicio</a></li>
-                    <li><a href="{% url 'ingresar' %}">Ingresar</a></li>
-                    <li><a href="{% url 'catalogo' %}">Catálogo</a></li>
-                    <li><a href="{% url 'registro' %}">Registrarse</a></li>
-                    <li><a href="{% url 'contactos' %}">Contactos</a></li>
-                </ul>
-            </div>
-    
-            <div class="seccion redes-sociales">
-                <h5>Síguenos en nuestras redes:</h5>
-                <i class="fab fa-facebook"></i>
-                <i class="fab fa-whatsapp"></i>
-                <i class="fas fa-envelope"></i>
-                <i class="fab fa-tiktok"></i>
-            </div>
-        </div>
             <p class="copyright">La Biblioteca 2024 © Todos los derechos reservados</p>
         </footer>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
