@@ -93,9 +93,9 @@ def perfil(request):
     context = {}
 
     if request.method == "GET":
-        context['perfil_form'] = PerfilForm()
+        context['perfil_form'] = forms.PerfilForm()
     else:
-        form = PerfilForm(request.POST)
+        form = forms.PerfilForm(request.POST)
 
         context['perfil_form'] = form
 
