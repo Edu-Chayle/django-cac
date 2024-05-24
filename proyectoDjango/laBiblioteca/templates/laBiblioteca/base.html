@@ -13,21 +13,25 @@
         {% block css %}{% endblock %}
     </head>
     <body>
-        <header class="hero">
-            <div class="contenedor_logo_principal">
-                <a href="{% url 'index' %}"><img class="logo_principal" src="{% static 'laBiblioteca/img/laBiblioteca.webp' %}" alt="La Biblioteca"></a>
-            </div>
-                <div class="contenedor_menu">
-                    <ul class="menu" class="mostrar-menu">
-                        <li><a href="{% url 'index' %}">Inicio</a></li>
-                        <li><a href="{% url 'ingresar' %}">Ingresar</a></li>
-                        <li><a href="{% url 'registro' %}">Registrarse</a></li>
-                        <li><a href="{% url 'catalogo' %}">Catálogo</a></li>
-                        <li><a href="{% url 'perfil' %}">Perfil</a></li>
-                        <li><a href="{% url 'contactos' %}">Contactos</a></li>
-                    </ul>
+        <header>
+            <nav class="navbar navbar-expand-sm bg-black navbar-dark">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="{% url 'index' %}"><img src="{% static 'laBiblioteca/img/laBiblioteca.webp' %}" alt="La Biblioteca"></a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div id="mynavbar" class="collapse navbar-collapse">
+                        <ul class="navbar-nav ms-auto">
+                            <li class="nav-item"><a class="nav-link active" href="{% url 'index' %}">Inicio</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{% url 'ingresar' %}">Ingresar</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{% url 'registro' %}">Registrarse</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{% url 'catalogo' %}">Catálogo</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{% url 'perfil' %}">Perfil</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{% url 'contactos' %}">Contactos</a></li>
+                        </ul>
+                    </div>
                 </div>
-            <div class="icono-menu">&#9776;</div>
+            </nav>
             {% if messages %}
                 <ul class="messages">
                     {% for message in messages %}
