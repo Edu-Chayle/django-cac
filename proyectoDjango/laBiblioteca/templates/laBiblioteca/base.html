@@ -13,7 +13,7 @@
         {% block css %}{% endblock %}
     </head>
     <body>
-        <header>
+        <header class="header">
             <nav class="navbar navbar-expand-sm bg-black navbar-dark">
                 <div class="container-fluid">
                     <a class="navbar-brand" href="{% url 'index' %}"><img src="{% static 'laBiblioteca/img/laBiblioteca.webp' %}" alt="La Biblioteca"></a>
@@ -32,6 +32,7 @@
                     </div>
                 </div>
             </nav>
+            <img class="w-100" src="{% static 'laBiblioteca/img/recepcion-la-biblioteca.png' %}" alt="Recepción de una biblioteca">
             {% if messages %}
                 <ul class="messages">
                     {% for message in messages %}
