@@ -1,18 +1,28 @@
 {% extends "laBiblioteca/base.html" %}
 {% load static %}
-{% block title %} Catálogo | La biblioteca {% endblock %}
+{% block title %}Catálogo | La biblioteca {% endblock %}
 {% block css %}
 <link rel="stylesheet" href="{% static 'laBiblioteca/style/catalogo.css' %}">
 {% endblock %}
 
 {% block main %}
-<div class="contenedor_panel">
-    <h2 class="titulo_catalogo">Libros disponibles:</h2>
-    <ul>
-        <li><a href="{% url 'catalogo' %}">Libro 1</a><a href="{% url 'catalogo' %}">Reservar</a></li>
-        <li><a href="{% url 'catalogo' %}">Libro 2</a><a href="{% url 'catalogo' %}">Reservar</a></li>
-        <li><a href="{% url 'catalogo' %}">Libro 3</a><a href="{% url 'catalogo' %}">Reservar</a></li>
-    </ul>  
-</div>
-
+    <h1 class="fw-bold mb-4 text-primary text-center">Catálogo</h1>
+    <div class="containe d-flex">
+    <!-- Content here -->
+        {% for dato in datos %}
+            <div class="card m-5" style="width: 18rem;">
+                <img class="card-img-top" src="{{dato.img}}" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">Book code: {{dato.codigo}}</h5>
+                    <li>Titulo: <i>{{ dato.titulo}}</i></li>
+                    <li>Autor: <i>{{ dato.autor}}</i></li>
+                    <li>Año de Publicación: <i>{{ dato.publicacion}}</i></li>
+                    <li>Genero: <i>{{ dato.genero}}</i></li>
+                    <li>Paginas: <i>{{ dato.paginas}}</i></li>
+                    <br>
+                    <a href="{% url 'ruta_archivo_pdf' %}" class="btn btn-primary">Descargar</a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 {% endblock %}

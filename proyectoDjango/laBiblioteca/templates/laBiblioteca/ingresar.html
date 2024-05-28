@@ -6,14 +6,23 @@
 {% endblock %}
 
 {% block main %}
-    <div class="contenedor_formulario">
-    <h1 class="titulo_ingresar">Ingreso de usuarios</h1>
-
-    <form class="ingresar" action="{% url 'ingresar' %}" method="post">
-        {% csrf_token %}
-        {{ ingreso_lector_form.as_p }}
-        <input type="submit" value="Ingresar">
-        <input type="submit" value="Cancelar">
-    </form>
+    <div class="container py-4 bg-white mx-w">
+        <h1 class="fw-bold mb-4 text-primary text-center">Ingreso de usuario</h1>
+        <form class="container-fluid pb-2 form" action="{% url 'ingresar' %}" method="post">
+            {% csrf_token %}
+            <div class="d-flex flex-column mb-2">
+                {{ ingreso_lector_form.email.label_tag }}
+                {{ ingreso_lector_form.email }}
+                {{ ingreso_lector_form.email.errors }}
+            </div>
+            <div class="d-flex flex-column mb-4">
+                {{ ingreso_lector_form.contrasenia.label_tag }}
+                {{ ingreso_lector_form.contrasenia }}
+                {{ ingreso_lector_form.contrasenia.errors }}
+            </div>
+            <div class="mb-0 d-flex justify-content-center">
+                <input class="btn btn-primary mb-1 py-2 w-50" type="submit" value="INGRESAR">
+            </div>
+        </form>
     <div>
 {% endblock %}

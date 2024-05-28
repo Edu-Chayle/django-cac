@@ -16,7 +16,7 @@
         <header class="header">
             <nav class="navbar navbar-expand-sm bg-black navbar-dark">
                 <div class="container-fluid">
-                    <a class="navbar-brand" href="{% url 'index' %}"><img src="{% static 'laBiblioteca/img/laBiblioteca.webp' %}" alt="La Biblioteca"></a>
+                    <a class="navbar-brand" href="{% url 'index' %}"><img src="{% static 'laBiblioteca/img/logo-la-biblioteca.png' %}" alt="Logo La biblioteca"></a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
                         <span class="navbar-toggler-icon"></span>
                     </button>
@@ -32,7 +32,7 @@
                     </div>
                 </div>
             </nav>
-            <img class="w-100" src="{% static 'laBiblioteca/img/recepcion-la-biblioteca.png' %}" alt="Recepción de una biblioteca">
+            <img class="w-100" src="{% static 'laBiblioteca/img/presentacion-la-biblioteca.png' %}" alt="Recepción de una biblioteca, con un título superpuesto que dice La biblioteca">
             {% if messages %}
                 <ul class="messages">
                     {% for message in messages %}
@@ -41,7 +41,7 @@
                 </ul>
             {% endif %}
         </header>
-        <main>{% block main %}{% endblock %}</main>
+        <main class="main">{% block main %}{% endblock %}</main>
         <footer class="container-fluid bg-black text-white py-3">
             <div class="d-flex justify-content-between">
                 <div>

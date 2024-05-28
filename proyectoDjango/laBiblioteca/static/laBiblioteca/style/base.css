@@ -1,47 +1,62 @@
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 .navbar img {
-  width: 150px;
+    width: 150px;
 }
 
 .header .messages {
-font-weight: bold;
-margin-bottom: 8px;
-padding-left: 0;
-list-style-type: none;
+    font-weight: bold;
+    margin-bottom: 8px;
+    padding-left: 0;
+    list-style-type: none;
 }
 
 .header .messages li {
-padding: 10px;
-text-align: center;
+    padding: 10px;
+    text-align: center;
 }
 
 .header .messages .success {
-background-color: #28a745;
-color: #ffffff;
+    background-color: #28a745;
+    color: #ffffff;
 }
 
 .mx-w {
-max-width: 700px;
+    max-width: 700px;
+}
+
+.main {
+    background: url("../img/fondo-libros-flotantes.jpg") center/cover no-repeat;
+}
+
+.form label {
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.form input:not(input[type="submit"]), .form textarea {
+    padding: 11px 16px;
+    background-color: #00000033;
+    border: 1px solid #ffffff33;
 }
 
 .errorlist {
-font-weight: bold;
-margin-bottom: 8px;
-padding-left: 3px;
-background-color: red;
-color: #ffffff;
-list-style-type: none;
+    font-weight: bold;
+    margin-bottom: 8px;
+    padding-left: 3px;
+    background-color: red;
+    color: #ffffff;
+    list-style-type: none;
 }
 
 .errorlist li {
-padding: 3px 0;
+    padding: 3px 0;
 }
 
 .helptext {
-font-size: 0.8rem;
+    font-size: 0.8rem;
 }
