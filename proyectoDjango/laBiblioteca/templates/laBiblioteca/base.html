@@ -12,18 +12,24 @@
         {% block css %}{% endblock %}
     </head>
     <body>
-        <header class="hero">
-        <div class="contenedor_logo_principal"><a href="{% url 'index' %}"><img class="logo_principal" src="{% static 'laBiblioteca\img\laBiblioteca.webp' %}" alt="La Biblioteca"></a></div>
-        <div class="contenedor_menu">
-            <ul class="menu" class="mostrar-menu">
-                <li><a href="{% url 'index' %}">Inicio</a></li>
-                <li><a href="{% url 'ingresar' %}">Ingresar</a></li>
-                <li><a href="{% url 'catalogo' %}">Catálogo</a></li>
-                <li><a href="{% url 'registro' %}">Registrarse</a></li>
-                <li><a href="{% url 'contactos' %}">Contactos</a></li>
-            </ul>
-        </div>
-        <div class="icono-menu">&#9776;</div>
+        <header class="header">
+        <nav class="navbar navbar-expand-sm bg-black navbar-dark">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="{% url 'index' %}"><img src="{% static 'laBiblioteca/img/logo-la-biblioteca.png' %}" alt="Logo La biblioteca"></a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div id="mynavbar" class="collapse navbar-collapse">
+                        <ul class="navbar-nav ms-auto">
+                            <li class="nav-item"><a class="nav-link active" href="{% url 'index' %}">Inicio</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{% url 'ingresar' %}">Ingresar</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{% url 'registro' %}">Registrarse</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{% url 'catalogo' %}">Catálogo</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{% url 'contactos' %}">Contactos</a></li>
+                        </ul>
+                    </div>
+                </div>
+        </nav>
         </header>
 
     {% if messages %}
@@ -34,25 +40,22 @@
     </ul>
     {% endif %}
         
-        <main>{% block main %}{% endblock %}</main>
-        <footer>
-            <div class="section_footer">
-            <div class="seccion">
-                <h4>La biblioteca</h4>
+        <main class="main">{% block main %}{% endblock %}</main>
+        <footer class="container-fluid bg-black text-white py-3">
+            <div class="d-flex justify-content-between">
+           
+            <h4 class="mb-3">La biblioteca</h4>
                 <p>Dirección: Dirección</p>
                 <p>Email: labiblioteca@gmail.com</p>
                 <p>CABA, Argentina.</p>
             </div>
     
-            <div class="seccion">
-                <h4>Accesos Rápidos</h4>
-                <ul>
-                    <li><a href="{% url 'index' %}">Inicio</a></li>
-                    <li><a href="{% url 'ingresar' %}">Ingresar</a></li>
-                    <li><a href="{% url 'catalogo' %}">Catálogo</a></li>
-                    <li><a href="{% url 'registro' %}">Registrarse</a></li>
-                    <li><a href="{% url 'contactos' %}">Contactos</a></li>
-                </ul>
+            <div class="fs-1 text-center">
+                <h4>Síguenos en nuestras redes:</h4>
+                <a class="me-3" href="https://www.facebook.com" target="_blank"><i class="fab fa-facebook"></i></a>
+                    <a class="me-3" href="https://www.whatsapp.com" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                    <a class="me-3" href="https://www.gmail.com" target="_blank"><i class="fas fa-envelope"></i></a>
+                    <a href="https://www.tiktok.com" target="_blank"><i class="fab fa-tiktok"></i></a>
             </div>
     
             <div class="seccion redes-sociales">
@@ -62,7 +65,7 @@
                 <i class="fas fa-envelope"></i>
                 <i class="fab fa-tiktok"></i>
             </div>
-        </div>
+       
             <p class="copyright">La Biblioteca 2024 © Todos los derechos reservados</p>
         </footer>
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
