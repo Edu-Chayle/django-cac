@@ -29,10 +29,6 @@
     max-width: 700px;
 }
 
-.main {
-    background: url("../img/fondo-libros-flotantes.jpg") center/cover no-repeat;
-}
-
 .form label {
     font-weight: bold;
     margin-bottom: 8px;
