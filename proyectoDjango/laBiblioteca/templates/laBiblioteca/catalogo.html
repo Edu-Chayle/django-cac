@@ -1,28 +1,28 @@
 {% extends "laBiblioteca/base.html" %}
 {% load static %}
-{% block title %}Catálogo | La biblioteca {% endblock %}
+
+{% block title %} Catálogo | La biblioteca {% endblock %}
 {% block css %}
-<link rel="stylesheet" href="{% static 'laBiblioteca/style/catalogo.css' %}">
+    <link rel="stylesheet" href="{% static 'laBiblioteca/style/catalogo.css' %}">
 {% endblock %}
 
 {% block main %}
-    <h1 class="fw-bold mb-4 text-primary text-center">Catálogo</h1>
+    <h1 class="fw-bold my-4 text-primary text-center">Catálogo</h1>
     <div class="containe d-flex">
-    <!-- Content here -->
-        {% for dato in datos %}
+        {% for libro in libros %} 
             <div class="card m-5" style="width: 18rem;">
-                <img class="card-img-top" src="{{dato.img}}" alt="...">
+                <img class="card-img-top" src="{{ libro.portada }}" alt="...">
                 <div class="card-body">
-                    <h5 class="card-title">Book code: {{dato.codigo}}</h5>
-                    <li>Titulo: <i>{{ dato.titulo}}</i></li>
-                    <li>Autor: <i>{{ dato.autor}}</i></li>
-                    <li>Año de Publicación: <i>{{ dato.publicacion}}</i></li>
-                    <li>Genero: <i>{{ dato.genero}}</i></li>
-                    <li>Paginas: <i>{{ dato.paginas}}</i></li>
-                    <br>
-                    <a href="{% url 'ruta_archivo_pdf' %}" class="btn btn-primary">Descargar</a>
+                    <h5 class="card-title">ISBN: {{ libro.isbn }}</h5>
+                    <li>Título: <i>{{ libro.titulo }}</i></li>
+                    <li>Autor: <i>{{ libro.autor }}</i></li>
+                    <li>Precio: <i>{{ libro.precio }}</i></li>
+                    <li class="mb-3">Stock: <i>{{ libro.stock }}</i></li>
+                    <a class="btn btn-primary" href="{% url 'agregar_al_carrito' libro.id %}">AGREGAR</a>
                 </div>
             </div>
+        {% empty %}
+            <p class="mb-0 text-center">No hay libros cargados.</p>
         {% endfor %}
     </div>
 {% endblock %}
