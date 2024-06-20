@@ -1,0 +1,16 @@
+{% extends "laBiblioteca/base.html" %}
+{% load static %}
+{% block title %}Eliminarar | La biblioteca {% endblock %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'laBiblioteca/style/eliminarar_libro.css' %}">
+{% endblock %}
+
+{% block main %}
+<h1>¿Estás seguro que deseas eliminar este libro?</h1>
+    <p>{{ object.titulo }} - {{ object.autor }}</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Eliminar</button>
+        <a href="{% url 'panel_usuario' %}">Cancelar</a>
+    </form>
+{% endblock %}

@@ -1,0 +1,75 @@
+{% extends "laBiblioteca/base.html" %}
+{% load static %}
+
+{% block title %} Perfil | La biblioteca {% endblock %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'laBiblioteca/style/perfil.css' %}">
+{% endblock %}
+
+{% block main %}
+    <div class="container py-4 bg-white mx-w">
+        <h1 class="fw-bold mb-4 text-primary text-center">Perfil</h1>
+        <form class="container-fluid pb-2 form" action="{% url 'perfil' %}" method="post">
+            {% csrf_token %}
+            <div class="d-flex flex-column mb-2">
+                {{ perfil_form.nombre.label_tag }}
+                {{ perfil_form.nombre }}
+                {{ perfil_form.nombre.errors }}
+            </div>
+            <div class="d-flex flex-column mb-2">
+                {{ perfil_form.apellido.label_tag }}
+                {{ perfil_form.apellido }}
+                {{ perfil_form.apellido.errors }}
+            </div>
+            <div class="d-flex flex-column mb-2">
+                {{ perfil_form.email.label_tag }}
+                {{ perfil_form.email }}
+                {{ perfil_form.email.errors }}
+            </div>
+            <div class="d-flex flex-column mb-2">
+                {{ perfil_form.contrasenia.label_tag }}
+                {{ perfil_form.contrasenia }}
+                {{ perfil_form.contrasenia.errors }}
+                <span class="helptext">{{ perfil_form.contrasenia.help_text }}</span>
+            </div>
+            <div class="d-flex flex-column mb-4">
+                {{ perfil_form.descripcion.label_tag }}
+                {{ perfil_form.descripcion }}
+                {{ perfil_form.descripcion.errors }}
+            </div>
+            <div class="mb-0 d-flex justify-content-center">
+                <input class="btn btn-primary mb-1 py-2 w-50" type="submit" value="ENVIAR">
+            </div>
+        </form>
+    </div>
+{% endblock %}
+
+{% extends "laBiblioteca/base.html" %}
+{% load static %}
+{% block title %}Mis datos | La biblioteca {% endblock %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'laBiblioteca/style/mis_datos.css' %}">
+{% endblock %}
+
+{% block main %}
+<div class="contenedor_panel_usuario">
+    <div class="contenedor_panel_usuario">
+        <h3 class="titulo_panel_usuario">Mis Datos</h3>
+        <ul>
+            {% if not user.is_staff %}
+                <li>Usuario: {{ user.username }}</li>
+                <li>Nombre: {{ user.first_name }}</li>
+                <li>Apellido: {{ user.last_name }}</li>
+                <li>Email: {{ user.email }}</li></li>
+                <li><a href="{% url 'modificar_usuario' %}">Modificar Mis Datos</a></li>
+            {% endif %}
+            {% if user.is_staff %}
+                <li>Usuario: {{ user.username }}</li>
+                <li>Nombre: {{ user.first_name }}</li>
+                <li>Apellido: {{ user.last_name }}</li>
+                <li>Email: {{ user.email }}</li></li>
+                <li><a href="{% url 'modificar_usuario' %}">Modificar Datos</a></li>
+            {% endif %}
+        </ul>
+    </div>
+{% endblock %}

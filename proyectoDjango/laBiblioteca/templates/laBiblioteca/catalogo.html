@@ -1,0 +1,30 @@
+<!-- catalogo.html -->
+{% extends "laBiblioteca/base.html" %}
+{% load static %}
+
+{% block title %} Catálogo | La biblioteca {% endblock %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'laBiblioteca/style/catalogo.css' %}">
+{% endblock %}
+
+{% block main %}
+    <h1 class="fw-bold my-4 text-primary text-center">Catálogo</h1>
+    <div class="container d-flex">
+        {% for libro in libros %}
+            <div class="card m-5" style="width: 18rem;">
+                <li class="img_libro"><img class="img_libro" src="{{ libro.portada.url }}" width="100" height="100" alt="Portada del libro"></li>
+                <img src="{{ libro.portada }}" alt="Portada del libro">
+                <div class="card-body">
+                    <h5 class="card-title">ISBN: {{ libro.isbn }}</h5>
+                    <p>Título: {{ libro.titulo }}</p>
+                    <p>Autor: {{ libro.autor }}</p>
+                    <p>Precio: {{ libro.precio }}</p>
+                    <p>Stock: {{ libro.stock }}</p>
+                    <a class="btn btn-primary" href="{% url 'agregar_al_carrito' libro.id %}">AGREGAR</a>
+                </div>
+            </div>
+        {% empty %}
+            <p class="mb-0 text-center">No hay libros cargados.</p>
+        {% endfor %}
+    </div>
+{% endblock %}
