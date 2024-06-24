@@ -1,0 +1,22 @@
+{% extends "laBiblioteca/base.html" %}
+{% load static %}
+{% block title %}Mis datos | La biblioteca {% endblock %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'laBiblioteca/style/mis_datos.css' %}">
+{% endblock %}
+
+{% block main %}
+<div class="contenedor_panel_usuario">
+    <h1>Modificar Datos del Usuario</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Guardar Cambios</button>
+    </form>
+    {% if user.is_staff %}
+        <a href="{% url 'panel_usuario' %}">Cancelar</a>
+    {% else %}
+        <a href="{% url 'panel_usuario' %}">Cancelar</a>
+    {% endif %}
+</div>
+{% endblock %}

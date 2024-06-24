@@ -24,17 +24,22 @@
                     <div id="mynavbar" class="collapse navbar-collapse">
                         <ul class="navbar-nav ms-auto">
                             <li class="nav-item"><a class="nav-link active" href="{% url 'index' %}">Inicio</a></li>
-                            <li class="nav-item"><a class="nav-link" href="{% url 'ingresar' %}">Ingresar</a></li>
-                            <li class="nav-item"><a class="nav-link" href="{% url 'registro' %}">Registrarse</a></li>
+                            {% if not user.is_authenticated %}<li><a class="nav-link"  href="{% url 'login' %}">Ingresar</a></li> {% endif %}
+                            {% if user.is_authenticated and not user.is_staff %} <li><a class="nav-link"  href="{% url 'panel_usuario' %}">Panel</a></li> {% endif %}
+                            {% if not user.is_authenticated %}<li><a class="nav-link"  href="{% url 'registro' %}">Registrarse</a></li> {% endif %}
                             <li class="nav-item"><a class="nav-link" href="{% url 'catalogo' %}">Catálogo</a></li>
-                            <li class="nav-item">
+                            {% if user.is_authenticated %}<li class="nav-item"><a class="nav-link" href="{% url 'perfil' %}">Perfil</a></li> {% endif %}
+                            {% if user.is_staff %}<li><a class="nav-link"  href="{% url 'panel_usuario' %}">Intranet</a></li> {% endif %}
+                            {% if user.is_superuser %}<li><a class="nav-link"  href={% url 'admin:index' %}>ADM</a></li> {% endif %}
+                            {% if not user.is_staff %}<li class="nav-item"><a class="nav-link" href="{% url 'contactos' %}">Contactos</a></li> {% endif %}
+                            {% if user.is_authenticated and not user.is_staff %} <li class="nav-item">
                                 <a class="nav-link" href="{% url 'carrito' %}">
                                     <i class="bi bi-cart"></i>
                                     <span class="badge bg-danger">{{ request.session.cart_books_count|default:0 }}</span>
                                 </a>
-                            </li>
-                            <li class="nav-item"><a class="nav-link" href="{% url 'perfil' %}">Perfil</a></li>
-                            <li class="nav-item"><a class="nav-link" href="{% url 'contactos' %}">Contactos</a></li>
+                            </li> {% endif %}
+                            {% if user.is_authenticated %}<li><a  class="nav-link"  class="logout button" href="{% url 'logout' %}">Cerrar Cesión</a></li> {%endif%}
+                            
                         </ul>
                     </div>
                 </div>

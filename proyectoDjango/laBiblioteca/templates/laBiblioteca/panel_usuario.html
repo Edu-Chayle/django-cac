@@ -6,23 +6,75 @@
 {% endblock %}
 
 {% block main %}
+{% if not user.is_staff %}
 <div class="contenedor_panel">
-    <h2 class="titulo_registro">Bienvenido: {{ nombre }}</h2>
+    <h2 class="titulo_registro">Bienvenido: {{ user.first_name }}</h2>
     <ul>
-        <li><a href="{% url 'panel_usuario' %}">Mis datos</a></li>
-        <li><a href="{% url 'index' %}">Cerrar cesión</a></li>
+        <li><a href="{% url 'mis_datos' %}">Mis datos</a></li>
+        <li><a href="{% url 'logout' %}">Cerrar cesión</a></li>
         <li></li>
     </ul>  
 </div>
 
 <div class="contenedor_libros">
-    <h3 class="titulo_mis_libros">Mis Libros: {{ nombre }}</h3>
+    <h3 class="titulo_mis_libros">Mis Libros:</h3>
     <ul>
         <li><a>Libro 1</a></li>
         <li><a>Libro 2</a></li>
         <li></li>
     </ul>
-
-    
 </div>
+{% endif %}
+
+{% if user.is_staff %}
+<div class="contenedor_panel">
+    <h2 class="titulo_registro">Bienvenido: {{ user.username }}</h2>
+    <ul>
+        <li><a href="{% url 'mis_datos' %}">Mis datos</a></li>
+        <li><a href="{% url 'catalogo' %}">Catálogo</a></li>
+        <ol>
+            {% for libro in libros %}
+                <li>
+                    {{ libro.titulo }} - {{ libro.autor }}
+                    <a href="{% url 'actualizar_libro' libro.pk %}">Actualizar</a>
+                    <a href="{% url 'eliminar_libro' libro.pk %}">Eliminar</a>
+                </li>
+            {% empty %}
+                <p>No tienes libros en stock</p>
+            {% endfor %}
+        </ol>
+
+        <li><a href="{% url 'panel_usuario' %}">Lectores</a></li>
+        <ol>
+            {% for usuario in usuarios %}
+                <li>{{ usuario.username }} - {{ usuario.first_name }} {{ usuario.last_name }} - {{ usuario.email }}</li>
+            {% empty %}
+                <p>No hay usuarios registrados</p>
+            {% endfor %}
+        </ol>
+
+        <li><a href="{% url 'panel_usuario' %}">Mensajes</a></li>
+        <ol>
+            {% for mensaje in mensajes %}
+                <li>{{ mensaje.nombre }} - {{ mensaje.email }} - {{ mensaje.mensaje }} - {{ mensaje.recibir_noticias }}</li>
+            {% endfor %}
+        </ol>
+        <li>{% if user.is_authenticated %}<a class="logout button" href="{% url 'logout' %}">Cerrar Sesión</a> {%endif%}</li>
+    </ul>
+</div>
+
+<div class="contenedor_libros">
+    <h3 class="titulo_mis_ventas">Mis ventas: {{ user.username }}</h3>
+    <ol>
+        {% for venta in ventas %}
+            <li>{{ venta.Fecha_de_venta }} - {{ venta.Libro }} - {{ venta.Usuario }}</li>
+        {% empty %}
+            <p>No tienes ventas</p>
+        {% endfor %}
+    </ol>
+</div>
+{% endif %}
+
+
+
 {% endblock %}

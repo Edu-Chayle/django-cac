@@ -1,0 +1,44 @@
+{% extends "laBiblioteca/base.html" %}
+{% load static %}
+{% block title %}Ingreso | La biblioteca {% endblock %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'laBiblioteca/style/login.css' %}">
+{% endblock %}
+
+{% block main %}
+    {% if form.errors %}
+    <p>Your username and password didn't match. Please try again.</p>
+    {% endif %}
+
+    {% if next %}
+        {% if user.is_authenticated %}
+        <p>Your account doesn't have access to this page. To proceed,
+        please login with an account that has access.</p>
+        {% else %}
+        <p>Please login to see this page.</p>
+        {% endif %}
+    {% endif %}
+
+    <div class="container py-4 bg-white mx-w">
+        <h1 class="fw-bold mb-4 text-primary text-center">Registro de usuario</h1>
+        <form class="container-fluid pb-2 form" method="post" action="{% url 'login' %}">
+            {% csrf_token %}
+            <div class="d-flex flex-column mb-2">
+                {{ form.username.label_tag }}
+                {{ form.username }}
+                {{ alform.username.errors }}
+            </div>
+            <div class="d-flex flex-column mb-2">
+                {{ form.password.label_tag }}
+                {{ form.password }}
+                {{ alform.password.errors }}
+            </div>
+            <div class="mb-0 d-flex justify-content-center">
+                <input class="btn btn-primary mb-1 py-2 w-50" type="submit" value="login">
+                <input type="hidden" name="next" value="{{ next }}">
+            </div>
+        </form>
+        {# Assumes you set up the password_reset view in your URLconf #}
+    <p><a class="fw-bold mb-4 text-primary text-center" href="{% url 'password_reset' %}">Recuperar contraseña</a></p>
+    </div>
+{% endblock %}

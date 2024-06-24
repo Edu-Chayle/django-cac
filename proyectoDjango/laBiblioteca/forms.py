@@ -1,25 +1,56 @@
 from django import forms
 from django.core.exceptions import ValidationError
+from .models import Cliente, User, Libro, Mensaje
 import re
 
-class AltaLectoresForm(forms.Form):
-    nombre = forms.CharField(label="Nombre", required=True)
-    apellido = forms.CharField(label="Apellido", required=True)
-    email = forms.EmailField(label="Email", required=True)
-    contraseña = forms.CharField(label="Contraseña", required=True)
-    repetirContraseña = forms.CharField(label="Repita su Contraseña", required=True)
+class AltaLectoresForm(forms.ModelForm):
+    password2 = forms.CharField(label="Repita su Contraseña", widget=forms.PasswordInput, required=True)
 
+    class Meta:
+        model = Cliente
+        fields = ['usuario', 'nombre', 'apellido', 'dni', 'email', 'password', 'password2', 'direccion']
+        widgets = {
+            'password': forms.PasswordInput(),
+        }
+
+    def clean(self):
+        cleaned_data = super().clean()
+        password = cleaned_data.get("password")
+        password2 = cleaned_data.get("password2")
+
+        if password and password2 and password != password2:
+            self.add_error('password2', "Las contraseñas deben ser iguales")
+
+        return cleaned_data
+
+    def save(self, commit=True):
+        cliente = super().save(commit=False)
+        cliente.set_password(self.cleaned_data["password"])
+
+        #tabla auth_user
+        user = User.objects.create_user(
+            username=cliente.usuario,
+            email=cliente.email,
+            password=self.cleaned_data["password"],
+            first_name=cliente.nombre,
+            last_name=cliente.apellido
+        )
+
+        if commit:
+            cliente.save()
+        return cliente
+    
     def clean_nombre(self):
-        if not self.cleaned_data["nombre"].isalpha():
-            raise ValidationError("El nombre solo puede estar compuesto por letras")
-
-        return self.cleaned_data["nombre"]
+        nombre = self.cleaned_data.get("nombre")
+        if not re.match(r'^[a-zA-Z\s]+$', nombre):
+            raise ValidationError("El nombre solo puede estar compuesto por letras y espacios")
+        return nombre
 
     def clean_apellido(self):
-        if not self.cleaned_data["apellido"].isalpha():
-            raise ValidationError("El apellido solo puede estar compuesto por letras")
-
-        return self.cleaned_data["apellido"]
+        apellido = self.cleaned_data.get("apellido")
+        if not re.match(r'^[a-zA-Z\s]+$', apellido):
+            raise ValidationError("El apellido solo puede estar compuesto por letras y espacios")
+        return apellido
 
     def clean(self):
         cleaned_data = super().clean()
@@ -37,11 +68,13 @@ class IngresoLectoresForm(forms.Form):
     email = forms.EmailField(label="Email", required=True)
     contraseña = forms.CharField(label="Contraseña", required=True)
 
-class ContactosForm(forms.Form):
-    nombre = forms.CharField(label="Nombre", required=True)
-    email = forms.EmailField(label="Email", required=True)
-    mensaje = forms.CharField(label="Mensaje", required=True,widget=forms.Textarea(attrs={'class': 'textarea_contacto'}))
-    recibir_noticias = forms.BooleanField(label="Suscribirse a noticias", required=False)
+class ContactosForm(forms.ModelForm):
+    class Meta:
+        model = Mensaje
+        fields = '__all__'
+        widgets = {
+            'mensaje': forms.Textarea(attrs={'cols': 80, 'rows': 20}),
+        }
 
 class PerfilForm(forms.Form):
     nombre = forms.CharField(max_length=50, label="Nombre", required=True)
@@ -85,3 +118,20 @@ class PerfilForm(forms.Form):
             raise forms.ValidationError("La contraseña no es válida.")
 
         return contrasenia
+    
+    
+class LibroForm(forms.ModelForm):
+    class Meta:
+        model = Libro
+        fields = ['isbn', 'portada', 'titulo', 'autor', 'precio', 'stock']
+        
+        
+class UsuarioForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'email', 'username']
+
+class UsuarioStaffForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'email', 'username']
