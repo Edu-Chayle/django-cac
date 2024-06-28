@@ -78,9 +78,9 @@ WSGI_APPLICATION = 'proyectoDjango.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'copia',
+        'NAME': 'la_biblioteca',
         'USER': 'postgres',
-        'PASSWORD': '2024',
+        'PASSWORD': '1981',
         'HOST': '127.0.0.1',
         'PORT': '5432',
     }

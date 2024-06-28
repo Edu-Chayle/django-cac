@@ -2,6 +2,7 @@ from django import forms
 from django.core.exceptions import ValidationError
 from .models import Cliente, User, Libro, Mensaje
 import re
+from .models import Libro
 
 class AltaLectoresForm(forms.ModelForm):
     password2 = forms.CharField(label="Repita su Contraseña", widget=forms.PasswordInput, required=True)
@@ -135,3 +136,16 @@ class UsuarioStaffForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['first_name', 'last_name', 'email', 'username']
+
+#Creando formulario personalizado
+class LibroForm(forms.ModelForm):
+    class Meta:
+        model = Libro
+        fields = ['titulo', 'autor', 'precio', 'isbn', 'portada', 'stock']
+
+    def clean_precio(self):
+        precio = self.cleaned_data.get('precio')
+        if precio <= 0:
+            raise forms.ValidationError('El precio debe ser mayor que cero.')
+        return precio
+    

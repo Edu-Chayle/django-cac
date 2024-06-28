@@ -1,15 +1,90 @@
+/* base.css */
+
+/* Variables CSS */
+:root {
+    --primary-color: #000000;
+    --secondary-color: #ffffff;
+    --bg-color: #f8f9fa;
+    --header-height: 200px;  /* Ajuste del tamaño del header */
+    --footer-height: 150px;
+    --font-size: 1rem;
+    --font-weight-bold: bold;
+    --padding: 20px;
+}
+
+/* Reset CSS */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+/* Body */
+body {
+    font-family: 'Arial', sans-serif;
+    font-size: var(--font-size);
+    background-color: var(--bg-color);
+    color: var(--primary-color);
+    line-height: 1.6;
+    margin: 0 auto;
+}
+
+/* Header */
+.header {
+    height: auto;
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--padding);
+    position: relative;
+}
+
+.navbar {
+    width: 100%;
+}
+
 .navbar img {
     width: 150px;
 }
 
+.header .header-image {
+    width: 100%;
+    height: auto;
+}
+
+/* Main Content */
+.main {
+    padding: var(--padding);
+    min-height: calc(100vh - var(--header-height) - var(--footer-height));
+}
+
+/* Footer */
+footer {
+    height: var(--footer-height);
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--padding);
+    flex-wrap: wrap;
+}
+
+.footer p {
+    margin: 0;
+}
+
+.footer .social-icons a {
+    margin-right: 10px;
+    color: var(--secondary-color);
+}
+
+/* Messages */
 .header .messages {
-    font-weight: bold;
+    font-weight: var(--font-weight-bold);
     margin-bottom: 8px;
     padding-left: 0;
     list-style-type: none;
@@ -22,30 +97,28 @@
 
 .header .messages .success {
     background-color: #28a745;
-    color: #ffffff;
+    color: var(--secondary-color);
 }
 
-.mx-w {
-    max-width: 700px;
-}
-
+/* Form Styles */
 .form label {
-    font-weight: bold;
+    font-weight: var(--font-weight-bold);
     margin-bottom: 8px;
 }
 
 .form input:not(input[type="submit"]), .form textarea {
     padding: 11px 16px;
-    background-color: #00000033;
-    border: 1px solid #ffffff33;
+    background-color: rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    width: 100%;
 }
 
 .errorlist {
-    font-weight: bold;
+    font-weight: var(--font-weight-bold);
     margin-bottom: 8px;
     padding-left: 3px;
     background-color: red;
-    color: #ffffff;
+    color: var(--secondary-color);
     list-style-type: none;
 }
 
@@ -55,4 +128,9 @@
 
 .helptext {
     font-size: 0.8rem;
+}
+
+/* Cards Styles */
+.card {
+    margin-bottom: 20px;
 }

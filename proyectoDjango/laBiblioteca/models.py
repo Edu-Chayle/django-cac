@@ -5,6 +5,9 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.validators import UnicodeUsernameValidator
+from django.core.exceptions import ValidationError
+from django.core.exceptions import ValidationError
+
 
 class Persona(models.Model):
     usuario = models.CharField(
@@ -59,6 +62,8 @@ class Cliente(AbstractUser, Persona):
     def __str__(self):
         return f"Nombre completo: {self.nombre} {self.apellido} - Email: {self.email} - Dirección: {self.direccion}"
 
+#Se agregan atributos a la clase libro y se incluye una advertencia de error si se introduce un precio de libro menor a cero.
+
 class Libro(models.Model):
     isbn = models.CharField(max_length=13, verbose_name="ISBN", unique=True)
     portada = models.ImageField(upload_to="imagenes/", null=True, blank=True, verbose_name="Portada")
@@ -69,6 +74,12 @@ class Libro(models.Model):
 
     def __str__(self):
         return f"ISBN: {self.isbn} - Portada: {self.portada} - Título: {self.titulo} - Autor: {self.autor} - Precio: {self.precio} - Stock: {self.stock}"
+    
+    def clean(self):
+        if self.precio <= 0:
+            raise ValidationError("El precio debe ser mayor que cero")
+
+
 
 class Venta(models.Model):
     factura = models.CharField(max_length=10, verbose_name="Factura", unique=True)

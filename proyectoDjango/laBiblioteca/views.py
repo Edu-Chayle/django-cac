@@ -1,3 +1,5 @@
+from django.db.models import Max
+from django.core.exceptions import ValidationError
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
 from django.views.generic.list import ListView
@@ -17,6 +19,11 @@ from django.contrib.auth.models import User
 from django.views.generic import TemplateView
 from django.views.generic.edit import UpdateView, DeleteView
 import os, logging
+#configurando path para CRUD de libros
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from .models import Libro
+from .forms import LibroForm
+
 
 def index(request):
     return render(request, 'laBiblioteca/index.html')
@@ -109,47 +116,45 @@ def clear_cart(request):
 
     return redirect('carrito')
 
-# def carrito(request):
-#     cart = Cart(request)
-#     total_price = cart.get_total_price()
+def carrito(request):
+    cart = Cart(request)
+    total_price = cart.get_total_price()
 
-#     return render(request, 'laBiblioteca/carrito.html', {'cart': cart, 'total_price': total_price})
+    return render(request, 'laBiblioteca/carrito.html', {'cart': cart, 'total_price': total_price})
 
 logger = logging.getLogger(__name__)
 
-class CarritoView(ListView):
-    template_name = 'laBiblioteca/carrito.html'
-    context_object_name = 'libros'
+# Volvi el carrito a la version funcional, cree generar_numero_factura y modifique venta
 
-    def get_queryset(self):
-        # Obtener los libros en el carrito (aquí deberías filtrar por la lógica de tu carrito)
-        # Por ejemplo, si tienes un carrito específico para el usuario actual, lo filtrarías aquí.
-        # Esto depende de cómo hayas implementado tu lógica de carrito.
-        return Libro.objects.all()
+def generar_numero_factura():
+    last_invoice = Venta.objects.aggregate(Max('factura'))['factura__max']
+    if last_invoice:
+        new_number = int(last_invoice) + 1
+    else:
+        new_number = 1
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['total_price'] = self.get_total_price()  # Calcular el precio total del carrito
-        return context
+    return str(new_number).zfill(10)
 
-    def get_total_price(self):
-        libros_en_carrito = self.get_queryset()
-        total_price = sum(libro.precio for libro in libros_en_carrito)
-        return total_price
-    
-    
 def venta(request):
     cliente = get_object_or_404(Cliente, email=request.user.email)
     cart = Cart(request)
 
+    nueva_factura = generar_numero_factura()
+
     nueva_venta = Venta.objects.create(
-        factura="FACT" + str(timezone.now().timestamp()).replace('.', ''),
+        factura=nueva_factura,
         cliente=cliente,
         monto_total=cart.get_total_price()
     )
 
     for libro_id, item in cart.cart.items():
         libro = get_object_or_404(Libro, id=libro_id)
+
+        if libro.stock >= item['cantidad']:
+            libro.stock -= item['cantidad']
+            libro.save()
+        else:
+            raise ValidationError(f"No hay suficiente stock para el libro {libro.titulo} (ISBN: {libro.isbn})")
 
         VentaLibro.objects.create(
             venta=nueva_venta,
@@ -260,3 +265,29 @@ class ActualizarLibroView(LoginRequiredMixin, UpdateView):
     def form_valid(self, form):
         messages.success(self.request, 'Has modificado el libro con éxito')
         return super().form_valid(form)
+
+#configurando el CRUD de libros creacion de vistas
+class LibroListView(ListView):
+    model = Libro
+    template_name = 'libro_list.html'
+
+class LibroDetailView(DetailView):
+    model = Libro
+    template_name = 'libro_detail.html'
+
+class LibroCreateView(CreateView):
+    model = Libro
+    form_class = LibroForm
+    template_name = 'libro_form.html'
+
+class LibroUpdateView(UpdateView):
+    model = Libro
+    form_class = LibroForm
+    template_name = 'libro_form.html'
+
+class LibroDeleteView(DeleteView):
+    model = Libro
+    template_name = 'libro_confirm_delete.html'
+    success_url = reverse_lazy('libro_list')
+
+

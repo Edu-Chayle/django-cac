@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ object.titulo }}</title>
+</head>
+<body>
+    <h1>{{ object.titulo }}</h1>
+    <p><strong>Autor:</strong> {{ object.autor }}</p>
+    <p><strong>Precio:</strong> ${{ object.precio }}</p>
+    <p><strong>ISBN:</strong> {{ object.isbn }}</p>
+    <p><strong>Stock:</strong> {{ object.stock }}</p>
+    {% if object.portada %}
+    <p><strong>Portada:</strong></p>
+    <img src="{{ object.portada.url }}" alt="Portada de {{ object.titulo }}">
+    {% endif %}
+    <a href="{% url 'libro_update' object.pk %}">Editar</a>
+    <a href="{% url 'libro_delete' object.pk %}">Eliminar</a>
+    <a href="{% url 'libro_list' %}">Volver a la lista</a>
+</body>
+</html>

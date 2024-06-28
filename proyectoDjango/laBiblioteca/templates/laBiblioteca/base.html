@@ -17,29 +17,32 @@
         <header class="header">
             <nav class="navbar navbar-expand-sm bg-black navbar-dark">
                 <div class="container-fluid">
-                    <a class="navbar-brand" href="{% url 'index' %}"><img src="{% static 'laBiblioteca/img/logo-la-biblioteca.png' %}" alt="Logo La biblioteca"></a>
+                    <a class="navbar-brand" href="{% url 'index' %}">
+                        <img src="{% static 'laBiblioteca/img/logo-la-biblioteca.png' %}" alt="Logo La biblioteca">
+                    </a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
                         <span class="navbar-toggler-icon"></span>
                     </button>
                     <div id="mynavbar" class="collapse navbar-collapse">
                         <ul class="navbar-nav ms-auto">
                             <li class="nav-item"><a class="nav-link active" href="{% url 'index' %}">Inicio</a></li>
-                            {% if not user.is_authenticated %}<li><a class="nav-link"  href="{% url 'login' %}">Ingresar</a></li> {% endif %}
-                            {% if user.is_authenticated and not user.is_staff %} <li><a class="nav-link"  href="{% url 'panel_usuario' %}">Panel</a></li> {% endif %}
-                            {% if not user.is_authenticated %}<li><a class="nav-link"  href="{% url 'registro' %}">Registrarse</a></li> {% endif %}
+                            {% if not user.is_authenticated %}<li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Ingresar</a></li> {% endif %}
+                            {% if user.is_authenticated and not user.is_staff %} <li class="nav-item"><a class="nav-link" href="{% url 'panel_usuario' %}">Panel</a></li> {% endif %}
+                            {% if not user.is_authenticated %}<li class="nav-item"><a class="nav-link" href="{% url 'registro' %}">Registrarse</a></li> {% endif %}
                             <li class="nav-item"><a class="nav-link" href="{% url 'catalogo' %}">Catálogo</a></li>
                             {% if user.is_authenticated %}<li class="nav-item"><a class="nav-link" href="{% url 'perfil' %}">Perfil</a></li> {% endif %}
-                            {% if user.is_staff %}<li><a class="nav-link"  href="{% url 'panel_usuario' %}">Intranet</a></li> {% endif %}
-                            {% if user.is_superuser %}<li><a class="nav-link"  href={% url 'admin:index' %}>ADM</a></li> {% endif %}
+                            {% if user.is_staff %}<li class="nav-item"><a class="nav-link" href="{% url 'panel_usuario' %}">Intranet</a></li> {% endif %}
+                            {% if user.is_superuser %}<li class="nav-item"><a class="nav-link" href="{% url 'admin:index' %}">ADM</a></li> {% endif %}
                             {% if not user.is_staff %}<li class="nav-item"><a class="nav-link" href="{% url 'contactos' %}">Contactos</a></li> {% endif %}
-                            {% if user.is_authenticated and not user.is_staff %} <li class="nav-item">
-                                <a class="nav-link" href="{% url 'carrito' %}">
-                                    <i class="bi bi-cart"></i>
-                                    <span class="badge bg-danger">{{ request.session.cart_books_count|default:0 }}</span>
-                                </a>
-                            </li> {% endif %}
-                            {% if user.is_authenticated %}<li><a  class="nav-link"  class="logout button" href="{% url 'logout' %}">Cerrar Cesión</a></li> {%endif%}
-                            
+                            {% if user.is_authenticated and not user.is_staff %}
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'carrito' %}">
+                                        <i class="bi bi-cart"></i>
+                                        <span class="badge bg-danger">{{ request.session.cart_books_count|default:0 }}</span>
+                                    </a>
+                                </li>
+                            {% endif %}
+                            {% if user.is_authenticated %}<li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Cerrar Sesión</a></li> {% endif %}
                         </ul>
                     </div>
                 </div>
@@ -53,8 +56,10 @@
                 </ul>
             {% endif %}
         </header>
-        <main class="main">{% block main %}{% endblock %}</main>
-        <footer class="container-fluid bg-black text-white py-3">
+        <main class="main">
+            {% block main %}{% endblock %}
+        </main>
+        <footer class="footer container-fluid bg-black text-white py-3">
             <div class="d-flex justify-content-between">
                 <div>
                     <h4 class="mb-3">La biblioteca</h4>
@@ -62,7 +67,7 @@
                     <p>Email: labiblioteca@gmail.com</p>
                     <p>CABA, Argentina.</p>
                 </div>
-                <div class="fs-1 text-center">
+                <div class="social-icons text-center">
                     <h4>Síguenos en nuestras redes:</h4>
                     <a class="me-3" href="https://www.facebook.com" target="_blank"><i class="fab fa-facebook"></i></a>
                     <a class="me-3" href="https://www.whatsapp.com" target="_blank"><i class="fab fa-whatsapp"></i></a>
