@@ -20,7 +20,5 @@ from laBiblioteca import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('laBiblioteca/', include('laBiblioteca.urls')),
+    path('', include('laBiblioteca.urls')),
 ]
-
-

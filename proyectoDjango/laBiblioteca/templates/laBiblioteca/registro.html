@@ -1,13 +1,15 @@
 {% extends "laBiblioteca/base.html" %}
 {% load static %}
+
 {% block title %} Registro | La biblioteca {% endblock %}
+
 {% block css %}
-<link rel="stylesheet" href="{% static 'laBiblioteca/style/registro.css' %}">
+    <link rel="stylesheet" href="{% static 'laBiblioteca/style/registro.css' %}">
 {% endblock %}
 
 {% block main %}
     <div class="container py-4 bg-white mx-w">
-        <h1 class="fw-bold mb-4 text-primary text-center">Registro de usuario</h1>
+        <h1 class="fw-bold mb-4 text-primary text-center">Registro</h1>
         <form class="container-fluid pb-2 form" action="{% url 'registro' %}" method="post">
             {% csrf_token %}
             <div class="d-flex flex-column mb-2">
@@ -51,7 +53,6 @@
                 {{ alta_lector_form.direccion }}
                 {{ alta_lector_form.direccion.errors }}
             </div>
-
             <div class="mb-0 d-flex justify-content-center">
                 <input class="btn btn-primary mb-1 py-2 w-50" type="submit" value="REGISTRARSE">
             </div>

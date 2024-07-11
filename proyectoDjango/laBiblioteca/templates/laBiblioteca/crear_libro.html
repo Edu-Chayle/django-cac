@@ -1,0 +1,18 @@
+{% extends "laBiblioteca/base.html" %}
+{% load static %}
+
+{% block title %} Crear | La biblioteca {% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'laBiblioteca/style/actualizar_libro.css' %}">
+{% endblock %}
+
+{% block main %}
+    <h1>Crear Libro</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-success">Crear</button>
+        <a href="{% url 'libros' %}" class="btn btn-info">Cancelar</a>
+    </form>
+{% endblock %}

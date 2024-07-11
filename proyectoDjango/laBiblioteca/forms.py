@@ -1,8 +1,7 @@
 from django import forms
 from django.core.exceptions import ValidationError
-from .models import Cliente, User, Libro, Mensaje
+from .models import Cliente, Libro, Mensaje, User
 import re
-from .models import Libro
 
 class AltaLectoresForm(forms.ModelForm):
     password2 = forms.CharField(label="Repita su Contraseña", widget=forms.PasswordInput, required=True)
@@ -10,25 +9,12 @@ class AltaLectoresForm(forms.ModelForm):
     class Meta:
         model = Cliente
         fields = ['usuario', 'nombre', 'apellido', 'dni', 'email', 'password', 'password2', 'direccion']
-        widgets = {
-            'password': forms.PasswordInput(),
-        }
-
-    def clean(self):
-        cleaned_data = super().clean()
-        password = cleaned_data.get("password")
-        password2 = cleaned_data.get("password2")
-
-        if password and password2 and password != password2:
-            self.add_error('password2', "Las contraseñas deben ser iguales")
-
-        return cleaned_data
+        widgets = {'password': forms.PasswordInput(),}
 
     def save(self, commit=True):
         cliente = super().save(commit=False)
         cliente.set_password(self.cleaned_data["password"])
 
-        #tabla auth_user
         user = User.objects.create_user(
             username=cliente.usuario,
             email=cliente.email,
@@ -39,31 +25,64 @@ class AltaLectoresForm(forms.ModelForm):
 
         if commit:
             cliente.save()
+
         return cliente
-    
+
     def clean_nombre(self):
         nombre = self.cleaned_data.get("nombre")
-        if not re.match(r'^[a-zA-Z\s]+$', nombre):
+
+        if not re.match(r"^[a-zA-Z\u00C0-\u00FF\s]{1,100}$", nombre):
             raise ValidationError("El nombre solo puede estar compuesto por letras y espacios")
+
         return nombre
 
     def clean_apellido(self):
         apellido = self.cleaned_data.get("apellido")
-        if not re.match(r'^[a-zA-Z\s]+$', apellido):
+
+        if not re.match(r"^[a-zA-Z\u00C0-\u00FF\s]{1,100}$", apellido):
             raise ValidationError("El apellido solo puede estar compuesto por letras y espacios")
+
         return apellido
+
+    def clean_dni(self):
+        dni = self.cleaned_data.get("dni")
+
+        if dni and not re.match(r"^[0-9]{7,8}$", str(dni)):
+            raise ValidationError("El dni debe estar entre 1000000 y 99999999")
+
+        if Cliente.objects.filter(dni=dni).exists():
+            raise ValidationError("El DNI ya está registrado")
+
+        return dni
+
+    def clean_email(self):
+        email = self.cleaned_data.get("email")
+
+        if email and not re.match(r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$", email):
+            raise ValidationError("El email no es válido")
+
+        if Cliente.objects.filter(email=email).exists():
+            raise ValidationError("El email ya está registrado")
+
+        return email
+
+    def clean_direccion(self):
+        direccion = self.cleaned_data.get("direccion")
+
+        if direccion and not re.match(r"^[a-zA-Z0-9\u00C0-\u00FF\s]{1,50}$", direccion):
+            raise ValidationError("La dirección solo puede contener letras, números y hasta 50 caracteres")
+
+        return direccion
 
     def clean(self):
         cleaned_data = super().clean()
-        nombre = cleaned_data.get("nombre")
-        apellido = cleaned_data.get("apellido")
-        contraseña = cleaned_data.get("contraseña")
-        contraseña2 = cleaned_data.get("repetirContraseña")
+        contraseña = cleaned_data.get("password")
+        contraseña2 = cleaned_data.get("password2")
 
-        if not contraseña == contraseña2:
-            raise ValidationError("Las contraseñas deben ser iguales")
+        if contraseña != contraseña2:
+            self.add_error('password2', "Las contraseñas no coinciden")
 
-        return self.cleaned_data    
+        return self.cleaned_data
 
 class IngresoLectoresForm(forms.Form):
     email = forms.EmailField(label="Email", required=True)
@@ -73,9 +92,7 @@ class ContactosForm(forms.ModelForm):
     class Meta:
         model = Mensaje
         fields = '__all__'
-        widgets = {
-            'mensaje': forms.Textarea(attrs={'cols': 80, 'rows': 20}),
-        }
+        widgets = {'mensaje': forms.Textarea(attrs={'cols': 80, 'rows': 20}),}
 
 class PerfilForm(forms.Form):
     nombre = forms.CharField(max_length=50, label="Nombre", required=True)
@@ -119,14 +136,12 @@ class PerfilForm(forms.Form):
             raise forms.ValidationError("La contraseña no es válida.")
 
         return contrasenia
-    
-    
+
 class LibroForm(forms.ModelForm):
     class Meta:
         model = Libro
         fields = ['isbn', 'portada', 'titulo', 'autor', 'precio', 'stock']
-        
-        
+
 class UsuarioForm(forms.ModelForm):
     class Meta:
         model = User
@@ -137,7 +152,6 @@ class UsuarioStaffForm(forms.ModelForm):
         model = User
         fields = ['first_name', 'last_name', 'email', 'username']
 
-#Creando formulario personalizado
 class LibroForm(forms.ModelForm):
     class Meta:
         model = Libro
@@ -145,7 +159,7 @@ class LibroForm(forms.ModelForm):
 
     def clean_precio(self):
         precio = self.cleaned_data.get('precio')
+
         if precio <= 0:
             raise forms.ValidationError('El precio debe ser mayor que cero.')
         return precio
-    

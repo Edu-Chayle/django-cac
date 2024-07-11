@@ -1,16 +1,26 @@
 {% extends "laBiblioteca/base.html" %}
 {% load static %}
-{% block title %}Eliminarar | La biblioteca {% endblock %}
+
+{% block title %} Eliminarar | La biblioteca {% endblock %}
+
 {% block css %}
-<link rel="stylesheet" href="{% static 'laBiblioteca/style/eliminarar_libro.css' %}">
+    <link rel="stylesheet" href="{% static 'laBiblioteca/style/eliminarar_libro.css' %}">
 {% endblock %}
 
 {% block main %}
-<h1>¿Estás seguro que deseas eliminar este libro?</h1>
-    <p>{{ object.titulo }} - {{ object.autor }}</p>
-    <form method="post">
-        {% csrf_token %}
-        <button type="submit">Eliminar</button>
-        <a href="{% url 'panel_usuario' %}">Cancelar</a>
-    </form>
+    <div class="card">
+        <div class="card-header">
+            <h2 class="card-title">¿Estás seguro que deseas eliminar este libro?</h2>
+            <div class="card-body">
+                <h4 class="card-title">Título : {{ object.titulo }} </h4>
+                <h4>Autor : {{ object.autor }}</h4>
+                <p class="card-text">Una vez que elimines el libro, ya no formara parte del catálogo.</p>
+            </div>
+        </div>
+    </div>
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Eliminar</button>
+            <a href="{% url 'libros' %}" class="btn btn-info">Cancelar</a>
+        </form>      
 {% endblock %}

@@ -1,31 +1,34 @@
 {% extends "laBiblioteca/base.html" %}
 {% load static %}
-{% block title %}Mis datos | La biblioteca {% endblock %}
+
+{% block title %} Mis datos | La biblioteca {% endblock %}
+
 {% block css %}
-<link rel="stylesheet" href="{% static 'laBiblioteca/style/mis_datos.css' %}">
+    <link rel="stylesheet" href="{% static 'laBiblioteca/style/mis_datos.css' %}">
 {% endblock %}
 
 {% block main %}
-<div class="contenedor_panel_usuario">
     <div class="contenedor_panel_usuario">
-        <h3 class="titulo_panel_usuario">Mis Datos</h3>
-        <ul>
-            {% if not user.is_staff %}
-                <li>Usuario: {{ user.username }}</li>
-                <li>Nombre: {{ user.first_name }}</li>
-                <li>Apellido: {{ user.last_name }}</li>
-                <li>Email: {{ user.email }}</li></li>
-                <li><a href="{% url 'modificar_usuario' %}">Modificar Datos</a></li>
-                <li><a href="{% url 'panel_usuario' %}">Volver</a></li>
-            {% endif %}
-            {% if user.is_staff %}
-                <li>Usuario: {{ user.username }}</li>
-                <li>Nombre: {{ user.first_name }}</li>
-                <li>Apellido: {{ user.last_name }}</li>
-                <li>Email: {{ user.email }}</li></li>
-                <li><a href="{% url 'modificar_usuario' %}">Modificar Datos</a></li>
-                <li><a href="{% url 'panel_usuario' %}">Volver</a></li>
-            {% endif %}
-        </ul>
+        <div class="contenedor_panel_usuario">
+            <h3 class="titulo_panel_usuario">Mis datos</h3>
+            <ul>
+                {% if not user.is_staff %}
+                    <li>Usuario: {{ user.username }}</li>
+                    <li>Nombre: {{ user.first_name }}</li>
+                    <li>Apellido: {{ user.last_name }}</li>
+                    <li>Email: {{ user.email }}</li></li>
+                    <li><a href="{% url 'modificar_usuario' %}">Modificar datos</a></li>
+                    <li><a href="{% url 'libros' %}">Volver</a></li>
+                {% endif %}
+                {% if user.is_staff %}
+                    <li>Usuario: {{ user.username }}</li>
+                    <li>Nombre: {{ user.first_name }}</li>
+                    <li>Apellido: {{ user.last_name }}</li>
+                    <li>Email: {{ user.email }}</li></li>
+                    <li><a href="{% url 'modificar_usuario' %}">Modificar datos</a></li>
+                    <li><a href="{% url 'libros' %}">Volver</a></li>
+                {% endif %}
+            </ul>
+        </div>
     </div>
 {% endblock %}

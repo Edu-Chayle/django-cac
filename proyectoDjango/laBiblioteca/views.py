@@ -1,98 +1,81 @@
-from django.db.models import Max
+from django.contrib import messages
+from django.contrib.auth import logout, login,authenticate 
+from django.contrib.auth import login as auth_login
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.models import User
+from django.contrib.auth.views import LoginView
 from django.core.exceptions import ValidationError
+from django.db.models import Max
 from django.shortcuts import render, redirect, get_object_or_404
-from django.utils import timezone
-from django.views.generic.list import ListView
 from django.urls import reverse_lazy
+from django.utils import timezone
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
 from . import forms
 from .cart import Cart
 from .forms import AltaLectoresForm, IngresoLectoresForm, UsuarioStaffForm, UsuarioForm, LibroForm, ContactosForm
 from .models import Cliente, Libro, Venta, VentaLibro, User, Mensaje
-from django.contrib import messages
-from django.views.generic.list import ListView
-from django.contrib.auth import logout, login
-from django.contrib.auth import login as auth_login
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.views import LoginView
-from django.contrib.auth.models import User
-from django.views.generic import TemplateView
-from django.views.generic.edit import UpdateView, DeleteView
-import os, logging
-#configurando path para CRUD de libros
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from .models import Libro
-from .forms import LibroForm
+import logging, os
 
+# =================================== INICIO ====================================
 
 def index(request):
     return render(request, 'laBiblioteca/index.html')
 
-class CustomLoginView(LoginView):
-    def form_valid(self, form):
-        user = form.get_user()
-        auth_login(self.request, user)
-        if user.is_staff:
-            return redirect('index')
+# ==================================== LOGIN ====================================
+
+def ingresar(request):
+    if request.method == 'GET':
+        return render(request, 'laBiblioteca/ingresar.html', {'form': AuthenticationForm})
+    else:
+        user = authenticate(request, username=request.POST['username'], password=request.POST['password'])
+
+        if user is None:
+            return render(request, 'laBiblioteca/ingresar.html', {
+                'form': AuthenticationForm, 
+                'error': 'usuario o contraseña incorrectos'
+                })
         else:
-            return redirect('panel_usuario')
-        
+            login(request, user)
+
+            return redirect('index')
+
+# =================================== LOGOUT ====================================
+
 def user_logout(request):
     logout(request)
 
-    messages.success(request, 'Sesion Cerrada')
+    messages.success(request, 'Sesión cerrada')
 
     return redirect('index')
 
+# ============================== REGISTRO USUARIO ===============================
 
 def registro(request):
-    contexto = {}
     if request.method =="GET":
-        form = forms.AltaLectoresForm()  
+        form = forms.AltaLectoresForm()
     else:
         form = AltaLectoresForm(request.POST)
+
         if form.is_valid():
             form.save()
-            messages.success(request, '¡Te has dado de alta con éxito!')
-            
-            return redirect('login')
-        else:
-            return render(request, 'laBiblioteca/registro.html', {'alta_lector_form': form})
 
-    
-    
+            messages.success(request, '¡Te has dado de alta con éxito!')
+
+            return redirect('login')
+
     return render(request, 'laBiblioteca/registro.html', {'alta_lector_form': form})
 
-
-def ingresar(request):
-    contexto = {}
-    if request.method =="GET":
-        contexto['ingreso_lector_form'] = forms.IngresoLectoresForm()
-    else: #asumo que es un POST
-        form = IngresoLectoresForm(request.POST)
-        contexto['ingreso_lector_form'] = forms.IngresoLectoresForm(request.POST)
-        #validar el form
-        #validar el form
-        # if form.is_valid():
-        #     #si el form es correcto
-        #     #si el form es correcto lo reirijo
-        #     print(request.POST)
-            
-        #     return redirect('panel_usuario')
-        #si el form es correcto
-        #si el form es correcto lo reirijo
-        #si el form contiene errores, envio un mensaje de error
-        #si todo esta OK; hago un comit en la base de datos
-        print(request.POST)
-        return redirect('panel_usuario')
-
-    return render(request, 'laBiblioteca/ingresar.html', contexto)
+# ============================= CATALOGO DE LIBROS ==============================
 
 class CatalogoLibros(ListView):
     model = Libro
     context_object_name = 'libros'
     template_name = 'laBiblioteca/catalogo.html'
     ordering = ['titulo']
+
+# =================================== CARRITO ===================================
 
 def agregar_al_carrito(request, libro_id):
     libro = get_object_or_404(Libro, id = libro_id)
@@ -117,14 +100,14 @@ def clear_cart(request):
     return redirect('carrito')
 
 def carrito(request):
-    cart = Cart(request)
-    total_price = cart.get_total_price()
+     cart = Cart(request)
+     total_price = cart.get_total_price()
 
-    return render(request, 'laBiblioteca/carrito.html', {'cart': cart, 'total_price': total_price})
+     return render(request, 'laBiblioteca/carrito.html', {'cart': cart, 'total_price': total_price})
 
 logger = logging.getLogger(__name__)
 
-# Volvi el carrito a la version funcional, cree generar_numero_factura y modifique venta
+# ============================== PROCESO DE VENTA ===============================
 
 def generar_numero_factura():
     last_invoice = Venta.objects.aggregate(Max('factura'))['factura__max']
@@ -167,14 +150,17 @@ def venta(request):
 
     return redirect('index')
 
+# ============================ MENSAJES DE CONTACTOS ============================
+
 def contactos(request):
     contexto = {}
+
     if request.method == "GET":
         contexto['contactos_form'] = forms.ContactosForm()
-    else:  # asumo que es un POST
+    else:
         form = forms.ContactosForm(request.POST)
         contexto['contactos_form'] = form
-        # validar el form
+
         if form.is_valid():
             nuevo_mensaje = Mensaje(
                 nombre=form.cleaned_data['nombre'],
@@ -182,12 +168,15 @@ def contactos(request):
                 mensaje=form.cleaned_data['mensaje'],
                 recibir_noticias=form.cleaned_data['recibir_noticias']
             )
+
             nuevo_mensaje.save()
             messages.success(request, '¡Tu mensaje ha sido enviado con éxito!')
+
             return redirect('contactos')
-    
-    # Renderizar el formulario con los datos de contexto
+
     return render(request, 'laBiblioteca/contactos.html', contexto)
+
+# ================================ ADMIN LIBROS =================================
 
 def panel_usuario(request):
     libros = Libro.objects.all()
@@ -196,31 +185,34 @@ def panel_usuario(request):
     datos = {'libros': libros, 'usuarios': usuarios, 'mensajes' : mensajes}
     return render(request, 'laBiblioteca/panel_usuario.html', datos)
 
+# =============================== USUARIO PERFIL ================================
+
 def perfil(request):
-    context = {}
+    usuarios = User.objects.filter(is_staff=False)
+    mensajes = Mensaje.objects.all()
 
-    if request.method == "GET":
-        context['perfil_form'] = forms.PerfilForm()
-    else:
-        form = forms.PerfilForm(request.POST)
+    context = {'usuarios':usuarios, 'mensajes':mensajes}
 
-        context['perfil_form'] = form
+    #if request.method == "GET":
+        #context['perfil_form'] = forms.PerfilForm()
+    #else:
+        #form = forms.PerfilForm(request.POST)
 
-        if form.is_valid():
-            messages.success(request, 'El perfil se actualizo con éxito.')
+        #context['perfil_form'] = form
 
-            return redirect('index')
+        #if form.is_valid():
+            #messages.success(request, 'El perfil se actualizo con éxito.')
+
+           # return redirect('index')
 
     return render(request, 'laBiblioteca/perfil.html', context)
-
 
 class mis_datos(ListView):
     model = User
     context_object_name = 'User'
     template_name = 'laBiblioteca/mis_datos.html'
     ordering = ['id']
-    
-    
+
 class ModificarUsuarioView(LoginRequiredMixin, UpdateView):
     model = User
     template_name = 'laBiblioteca/modificar_usuario.html'
@@ -240,54 +232,37 @@ class ModificarUsuarioView(LoginRequiredMixin, UpdateView):
 
     def get_success_url(self):
         return reverse_lazy('panel_usuario')
-    
-    
-    
+
+# =============================== CRUD DE LIBROS ================================
+
+class CrearLibroView(LoginRequiredMixin, CreateView):
+    model = Libro
+    form_class = LibroForm
+    template_name = 'laBiblioteca/crear_libro.html'
+    success_url = reverse_lazy('libros')
+
 class EliminarLibroView(LoginRequiredMixin, DeleteView):
     model = Libro
     template_name = 'laBiblioteca/eliminar_libro.html'
-    success_url = reverse_lazy('panel_usuario')
+    success_url = reverse_lazy('libros')
 
     def delete(self, request, *args, **kwargs):
         self.object = self.get_object()
+
         if self.object.imagen and self.object.imagen.name != 'imagenes_bd/sin_foto.webp':
             if os.path.isfile(self.object.imagen.path):
                 os.remove(self.object.imagen.path)
+
         messages.success(request, 'Has eliminado el libro con éxito')
+
         return super().delete(request, *args, **kwargs)
-    
+
 class ActualizarLibroView(LoginRequiredMixin, UpdateView):
     model = Libro
     form_class = LibroForm
     template_name = 'laBiblioteca/actualizar_libro.html'
-    success_url = reverse_lazy('panel_usuario')
+    success_url = reverse_lazy('libros')
 
     def form_valid(self, form):
         messages.success(self.request, 'Has modificado el libro con éxito')
         return super().form_valid(form)
-
-#configurando el CRUD de libros creacion de vistas
-class LibroListView(ListView):
-    model = Libro
-    template_name = 'libro_list.html'
-
-class LibroDetailView(DetailView):
-    model = Libro
-    template_name = 'libro_detail.html'
-
-class LibroCreateView(CreateView):
-    model = Libro
-    form_class = LibroForm
-    template_name = 'libro_form.html'
-
-class LibroUpdateView(UpdateView):
-    model = Libro
-    form_class = LibroForm
-    template_name = 'libro_form.html'
-
-class LibroDeleteView(DeleteView):
-    model = Libro
-    template_name = 'libro_confirm_delete.html'
-    success_url = reverse_lazy('libro_list')
-
-

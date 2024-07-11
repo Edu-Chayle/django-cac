@@ -1,13 +1,12 @@
-from django.db import models
-from django.core.validators import MinValueValidator, MaxValueValidator
-from django.contrib.auth.models import User, AbstractUser
-from django.db.models.signals import post_save
-from django.dispatch import receiver
+
 from django.contrib.auth.hashers import make_password
+from django.contrib.auth.models import User, AbstractUser
 from django.contrib.auth.validators import UnicodeUsernameValidator
 from django.core.exceptions import ValidationError
-from django.core.exceptions import ValidationError
-
+from django.core.validators import MinValueValidator, MaxValueValidator
+from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 class Persona(models.Model):
     usuario = models.CharField(
@@ -43,6 +42,7 @@ class Cliente(AbstractUser, Persona):
         related_name="cliente_set",
         related_query_name="cliente",
     )
+
     user_permissions = models.ManyToManyField(
         "auth.Permission",
         verbose_name="user permissions",
@@ -55,14 +55,14 @@ class Cliente(AbstractUser, Persona):
     def save(self, *args, **kwargs):
         if not self.id and self.password:
             self.password = make_password(self.password)
+
         if not self.username:
             self.username = self.usuario
+
         super().save(*args, **kwargs)
 
     def __str__(self):
         return f"Nombre completo: {self.nombre} {self.apellido} - Email: {self.email} - Dirección: {self.direccion}"
-
-#Se agregan atributos a la clase libro y se incluye una advertencia de error si se introduce un precio de libro menor a cero.
 
 class Libro(models.Model):
     isbn = models.CharField(max_length=13, verbose_name="ISBN", unique=True)
@@ -74,12 +74,10 @@ class Libro(models.Model):
 
     def __str__(self):
         return f"ISBN: {self.isbn} - Portada: {self.portada} - Título: {self.titulo} - Autor: {self.autor} - Precio: {self.precio} - Stock: {self.stock}"
-    
+
     def clean(self):
         if self.precio <= 0:
             raise ValidationError("El precio debe ser mayor que cero")
-
-
 
 class Venta(models.Model):
     factura = models.CharField(max_length=10, verbose_name="Factura", unique=True)
@@ -96,14 +94,15 @@ class VentaLibro(models.Model):
     libro = models.ForeignKey(Libro, on_delete=models.CASCADE)
     cantidad = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(999)], verbose_name="Cantidad")
     precio_unitario = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Precio unitario")
-    
+
     def __str__(self):
         return f"Factura: {self.venta.factura} - Libro: {self.libro.titulo} - Cantidad: {self.cantidad} - Precio unitario: {self.precio_unitario}"
-    
+
 class Mensaje(models.Model):
     nombre = models.CharField(max_length=160, verbose_name="Nombre")
-    email = models.EmailField( verbose_name="Email", unique=False, null=False, blank=False,)
+    email = models.EmailField(null=False, blank=False, verbose_name="Email", unique=False)
     mensaje = models.CharField(max_length=500, verbose_name="Mensaje")
-    recibir_noticias = models.BooleanField(verbose_name="Suscribirse a noticias", blank=True)
+    recibir_noticias = models.BooleanField(blank=True, verbose_name="Suscribirse a noticias")
+
     def __str__(self):
-        return f"Nombre: {self.nombre} | Email: {self.email} | Mensaje: {self.mensaje} | Recibir noticias: {self.recibir_noticias}"   
+        return f"Nombre: {self.nombre} | Email: {self.email} | Mensaje: {self.mensaje} | Recibir noticias: {self.recibir_noticias}"

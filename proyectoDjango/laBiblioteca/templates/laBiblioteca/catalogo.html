@@ -1,4 +1,3 @@
-<!-- catalogo.html -->
 {% extends "laBiblioteca/base.html" %}
 {% load static %}
 
@@ -9,17 +8,25 @@
 
 {% block main %}
     <h1 class="fw-bold my-4 text-primary text-center">Catálogo</h1>
-    <div class="container d-flex">
+    <div class="container d-flex" style="flex-wrap: wrap;">
         {% for libro in libros %}
-            <div class="card m-5" style="width: 18rem;">
-                <img src="{{ libro.portada }}" alt="Portada del libro">
-                <div class="card-body">
-                    <h5 class="card-title">ISBN: {{ libro.isbn }}</h5>
-                    <p>Título: {{ libro.titulo }}</p>
-                    <p>Autor: {{ libro.autor }}</p>
-                    <p>Precio: {{ libro.precio }}</p>
-                    <p>Stock: {{ libro.stock }}</p>
-                    <a class="btn btn-primary" href="{% url 'agregar_al_carrito' libro.id %}">AGREGAR</a>
+            <div class="row" style="width: 400px;">
+                <div class="col m-5">
+                    <div class="card h-100">
+                        {% if libro.portada and libro.portada.url %}
+                            <img src="{{ libro.portada.url }}" alt="Portada de {{ libro.titulo }}">
+                        {% else %}
+                            <img src="{% static 'images/default_cover.jpg' %}" alt="Portada no disponible">
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">ISBN: {{ libro.isbn }}</h5>
+                            <p>Título: {{ libro.titulo }}</p>
+                            <p>Autor: {{ libro.autor }}</p>
+                            <p>Precio: {{ libro.precio }}</p>
+                            <p>Stock: {{ libro.stock }}</p>
+                            <a class="btn btn-primary" href="{% url 'agregar_al_carrito' libro.id %}">AGREGAR</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         {% empty %}
