@@ -8,11 +8,28 @@
 {% endblock %}
 
 {% block main %}
-    <h1>Crear Libro</h1>
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-success">Crear</button>
-        <a href="{% url 'libros' %}" class="btn btn-info">Cancelar</a>
-    </form>
+    
+
+    <div class="container py-4 bg-white mx-w">
+        <h1 class="fw-bold mb-4 text-primary text-center">Crear Libro</h1>
+        <form class="container-fluid pb-2 form"  method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <label for="exampleFormControlInput1" class="form-label"><h3>Titulo</h3></label>
+            <div class="d-flex flex-column mb-2" >{{ form.titulo }}</div>
+            <label for="exampleFormControlInput1" class="form-label"><h3>Autor</h3></label>
+            <div class="d-flex flex-column mb-2">{{ form.autor }}</div>
+            <label for="exampleFormControlInput1" class="form-label"><h3>Precio</h3></label>
+            <div class="d-flex flex-column mb-2">{{ form.precio }}</div>
+            <label for="exampleFormControlInput1" class="form-label"><h3>Isbn</h3></label>
+            <div class="d-flex flex-column mb-2">{{ form.isbn }}</div>
+            <label for="exampleFormControlInput1" class="form-label"><h3>Portada</h3></label>
+            <div class="d-flex flex-column mb-2">{{ form.portada }}</div>
+            <label for="exampleFormControlInput1" class="form-label"><h3>Stock</h3></label>
+            <div class="d-flex flex-colum mb-2">{{ form.stock }}</div>
+            <div style="text-align: center; align-items: center;">
+                <button type="submit" class="btn btn-success">Crear...</button>
+                <a href="{% url 'libros' %}" class="btn btn-info">Cancelar</a>
+            </div>
+        </form>        
+    <div>
 {% endblock %}

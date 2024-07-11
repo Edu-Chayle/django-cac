@@ -8,47 +8,72 @@
 {% endblock %}
 
 {% block img %}
-    <img class="w-100" src="{% static 'laBiblioteca/img/presentacion-la-biblioteca.png' %}" alt="Recepción de una biblioteca, con un título superpuesto que dice La biblioteca">
+    <img class="imagen-inicio " src="{% static 'laBiblioteca/img/presentacion-la-biblioteca.png' %}" alt="Recepción de una biblioteca, con un título superpuesto que dice La biblioteca">
 {% endblock %}
 
 {% block main %}
-    <div class="container text-center my-5">
+    <div class="container text-center my-3">
         <h1 class="display-4">Bienvenido a La Biblioteca</h1>
-        <p class="lead my-4">Descubre un mundo de conocimiento y entretenimiento en nuestra amplia colección de libros. ¡Encuentra tus favoritos y descubre nuevos títulos que inspirarán tu próxima aventura!</p>
-        <a href="{% url 'catalogo' %}" class="btn btn-primary btn-lg mt-4">Explora Nuestro Catálogo</a>
+        <p class="lead my-2">Descubre un mundo de conocimiento y entretenimiento en nuestra amplia colección de libros. ¡Encuentra tus favoritos y descubre nuevos títulos que inspirarán tu próxima aventura!</p>
+        <a href="{% url 'catalogo' %}" class="btn btn-primary btn-lg mt-2">Explora Nuestro Catálogo</a>
     </div>
-    <div class="container mt-5">
+
+    <div class="container mt-3">
+
         <div class="row">
-            <div class="col-md-4">
-                <div class="card">
-                    <img src="{% static 'laBiblioteca/img/libro1.jpg' %}" class="card-img-top" alt="Libro 1">
-                    <div class="card-body">
-                        <h5 class="card-title">Nuevos Lanzamientos</h5>
-                        <p class="card-text">Mantente al día con las últimas novedades en el mundo de la literatura.</p>
-                        <a href="{% url 'catalogo' %}?category=nuevos" class="btn btn-secondary">Ver Más</a>
+
+
+            <div class="row" style="width: 400px;">
+                <div class="col m-5">
+                    <div class="card h-100">
+                            <img src="{% static 'laBiblioteca/img/lb_04.jpg' %}" alt="Portada no disponible">
+                        <div class="card-body">
+                            <h5 class="card-title">Nuevos Lanzamientos</h5>
+                            <p>Título: La Sombra de los Dioses</p>
+                            <p>Autor: John Gwynne</p>
+                            <div style="text-align: center; align-items: center;">
+                                <a class="btn btn-info mt-2 mb-1 py-2 w-50"href="{% url 'catalogo' %}?category=recommended">Ver Más</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="card">
-                    <img src="{% static 'laBiblioteca/img/libro2.jpg' %}" class="card-img-top" alt="Libro 2">
-                    <div class="card-body">
-                        <h5 class="card-title">Más Vendidos</h5>
-                        <p class="card-text">Explora los libros que todos están leyendo y recomendando.</p>
-                        <a href="{% url 'catalogo' %}?category=best-sellers" class="btn btn-secondary">Ver Más</a>
+            
+            <div class="row" style="width: 400px;">
+                <div class="col m-5">
+                    <div class="card h-100">
+                            <img src="{% static 'laBiblioteca/img/lb_11.jpg' %}" alt="Portada no disponible">
+                        <div class="card-body">
+                            <h5 class="card-title">Recomendados</h5>
+                            <p>Título: Crónicas marcianas</p>
+                            <p>Autor: Ray Bradbury</p>
+                            <div style="text-align: center; align-items: center;">
+                                <a class="btn btn-info mt-2 mb-1 py-2 w-50"href="{% url 'catalogo' %}?category=recommended">Ver Más</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="card">
-                    <img src="{% static 'laBiblioteca/img/libro3.jpg' %}" class="card-img-top" alt="Libro 3">
-                    <div class="card-body">
-                        <h5 class="card-title">Recomendaciones del Staff</h5>
-                        <p class="card-text">Nuestros expertos recomiendan los mejores libros para ti.</p>
-                        <a href="{% url 'catalogo' %}?category=recommended" class="btn btn-secondary">Ver Más</a>
+
+            <div class="row" style="width: 400px;">
+                <div class="col m-5">
+                    <div class="card h-100">
+                            <img src="{% static 'laBiblioteca/img/lb_12.jpg' %}" alt="Portada no disponible">
+                        <div class="card-body">
+                            <h5 class="card-title">Más Vendido</h5>
+                            <p>Título: SW. Episodio IX. El renacer de la resistencia</p>
+                            <p>Autor: Disney</p>
+                            
+                            <div style="text-align: center; align-items: center;">
+                                <a class="btn btn-info mt-2 mb-1 py-2 w-50"href="{% url 'catalogo' %}?category=recommended">Ver Más</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+
+
         </div>
+
     </div>
 {% endblock %}

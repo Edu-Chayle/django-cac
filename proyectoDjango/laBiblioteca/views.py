@@ -63,7 +63,7 @@ def registro(request):
 
             messages.success(request, '¡Te has dado de alta con éxito!')
 
-            return redirect('login')
+            return redirect('ingresar')
 
     return render(request, 'laBiblioteca/registro.html', {'alta_lector_form': form})
 
@@ -148,7 +148,7 @@ def venta(request):
 
     cart.clear_cart()
 
-    return redirect('index')
+    return redirect('catalogo')
 
 # ============================ MENSAJES DE CONTACTOS ============================
 

@@ -20,7 +20,7 @@ body {
     font-size: var(--font-size);
     background-color: var(--bg-color);
     color: var(--primary-color);
-    line-height: 1.6;
+    /*line-height: 1.6;*/
     margin: 0 auto;
 }
 
@@ -34,6 +34,7 @@ body {
     justify-content: center;
     padding: var(--padding);
     position: relative;
+   
 }
 
 .navbar {
@@ -50,7 +51,7 @@ body {
 }
 
 .main {
-    padding: var(--padding);
+    /*padding: var(--padding);*/
     min-height: calc(100vh - var(--header-height) - var(--footer-height));
 }
 

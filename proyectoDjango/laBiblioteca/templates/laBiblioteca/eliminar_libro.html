@@ -4,10 +4,11 @@
 {% block title %} Eliminarar | La biblioteca {% endblock %}
 
 {% block css %}
-    <link rel="stylesheet" href="{% static 'laBiblioteca/style/eliminarar_libro.css' %}">
+    <link rel="stylesheet" href="{% static 'laBiblioteca/style/ingresar.css' %}">
 {% endblock %}
 
 {% block main %}
+<div class="contenedor-ingresar">
     <div class="card">
         <div class="card-header">
             <h2 class="card-title">¿Estás seguro que deseas eliminar este libro?</h2>
@@ -23,4 +24,6 @@
             <button type="submit" class="btn btn-danger">Eliminar</button>
             <a href="{% url 'libros' %}" class="btn btn-info">Cancelar</a>
         </form>      
+</div>
+   
 {% endblock %}

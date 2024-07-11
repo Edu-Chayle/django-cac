@@ -26,25 +26,31 @@
                     <div id="mynavbar" class="collapse navbar-collapse">
                         <ul class="navbar-nav ms-auto">
                             <li class="nav-item"><a class="nav-link active" href="{% url 'index' %}">Inicio</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{% url 'catalogo' %}">Catálogo</a></li>
+
                             {% if not user.is_authenticated %}
                                 <li class="nav-item"><a class="nav-link" href="{% url 'ingresar' %}">Ingresar</a></li>
                             {% endif %}
+
                             {% if not user.is_authenticated %}
                                 <li class="nav-item"><a class="nav-link" href="{% url 'registro' %}">Registro</a></li>
                             {% endif %}
-                            <li class="nav-item"><a class="nav-link" href="{% url 'catalogo' %}">Catálogo</a></li>
+                            
                             {% if not user.is_staff and user.is_authenticated  %}
                                 <li class="nav-item"><a class="nav-link" href="{% url 'perfil' %}">Perfil</a></li>
                             {% endif %}
+
                             {% if user.is_staff %}
                                 <li class="nav-item"><a class="nav-link" href="{% url 'libros' %}">Libros</a></li>
                             {% endif %}
+
                             {% if user.is_superuser %}
                                 <li class="nav-item"><a class="nav-link" href="{% url 'admin:index' %}">ADM</a></li>
                             {% endif %}
                             {% if not user.is_staff %}
                                 <li class="nav-item"><a class="nav-link" href="{% url 'contactos' %}">Contacto</a></li>
                             {% endif %}
+
                             {% if user.is_authenticated and not user.is_staff %}
                                 <li class="nav-item">
                                     <a class="nav-link" href="{% url 'carrito' %}">
@@ -53,6 +59,7 @@
                                     </a>
                                 </li>
                             {% endif %}
+                            
                             {% if user.is_authenticated %}
                                 <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Cerrar Sesión</a></li>
                             {% endif %}
@@ -60,7 +67,7 @@
                     </div>
                 </div>
             </nav>
-            {% block img %}{% endblock %}
+            
             {% if messages %}
                 <ul class="messages">
                     {% for message in messages %}
@@ -73,6 +80,9 @@
             {% endif %}
         </header>
         <main class="main">
+
+            {% block img %}{% endblock %}
+            
             {% block main %}{% endblock %}
         </main>
         <footer class="footer container-fluid bg-black text-white py-3">
